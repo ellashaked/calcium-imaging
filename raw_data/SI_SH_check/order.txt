@@ -1,0 +1,21 @@
+tiff 23 vsi 19 sh nclx 2 - good
+tiff 22 vsi 18 sh nclx 2 - little response
+tiff 21 vsi 17 sh nclx 2 - no response
+tiff 20 vsi 16 sh nclx 2 - good 
+tiff 19 vsi 15 shNCLX 1 - good
+tiff 18 vsi 14 shNCLX 1 - no response 
+tiff 16 VSI 13 shNCLX 1 - water in the middle so stopped
+tiff 15 VSI 12 shNCLX 1 - little noisy
+tiff 14 VSI 11 shNCLX 1 - good
+tiff 13 VSI 10 shNCLX 0.5 - good but problem with focus in the end 
+tiff 12 VSI 9 shNCLX 0.5 - good
+tiff 11 VSI 8 shNCLX 0.5 - good
+tiff 10 VSI 7 siNCLX - good
+tiff 9 VSI 6 siNCLX - good!
+tiff 8 VSI 5 siCTRL - not much responded
+tiff 7 VSI 4 siCTRL - trash 
+tiff 6 VSI 3 siCTRL - good
+tiff 5 VSI 2 siCTRL - dont use
+tiff 2 VSI 1 TSIPI
+
+
