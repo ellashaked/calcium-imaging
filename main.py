@@ -6,7 +6,7 @@ from calcium_imaging import run_analysis
 def main():
     # arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("--experiment_dir", type=str, default="./data/fish_NCLX_10-04-25")
+    parser.add_argument("--experiment_dir", type=str, default="./raw_data/fish_NCLX_10-04-25")
     args = parser.parse_args()
 
     # analysis

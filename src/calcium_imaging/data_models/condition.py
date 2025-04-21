@@ -6,7 +6,13 @@ from .run import Run
 class Condition:
     """One experimental condition, e.g. 'shNCLX'."""
 
-    def __init__(self, runs_list: List[Run]) -> None:
+    def __init__(self, condition_type: str, runs_list: List[Run]) -> None:
         """Holds multiple runs of the same condition"""
-        self.runs_list = runs_list
-        assert len(runs_list) > 0 and all(run.condition == self.runs_list[0].condition for run in self.runs_list)
+        self.condition_type = condition_type
+        self.runs_list = sorted(runs_list, key=lambda run: run.id)
+        if not all(run.condition_type == condition_type for run in self.runs_list):
+            raise RuntimeError(
+                f"Found run with non suitable condition for '{self.condition_type}'")  # TODO more indicative
+
+    def __repr__(self) -> str:
+        return str(self.condition_type)
