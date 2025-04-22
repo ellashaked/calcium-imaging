@@ -7,7 +7,7 @@ from .io import load_run
 def load_experiment_from_dir(experiment_dir_path: Path):
     """Reads an experiment directory and parses it into an Experiment class object"""
     runs = [
-        Run(*load_run(run_file_path))
+        Run(*load_run(run_file_path)).preprocess()
         for run_file_path in experiment_dir_path.iterdir()
     ]
     unique_conditions = sorted(set(run.condition_type for run in runs))
