@@ -21,7 +21,7 @@ class Run:
         self.raw_df = sort_columns(df)
         self.df = df.copy(deep=True)
         self.id = self.name.split("-")[0].strip()  # TODO regex
-        self.condition_type = self.name.split("-")[-1].strip()  # TODO regex
+        self.condition_type = self.name.split("-")[-1].strip().lower()  # TODO regex
 
     def __repr__(self) -> str:
         return str(self.name)
