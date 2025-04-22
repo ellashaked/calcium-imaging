@@ -1,6 +1,6 @@
 import argparse
 
-from calcium_imaging import run_analysis
+from calcium_imaging.ui import run_full_analysis
 
 
 def main():
@@ -10,7 +10,7 @@ def main():
     args = parser.parse_args()
 
     # analysis
-    run_analysis(experiment_dir=args.experiment_dir)
+    run_full_analysis(experiment_dir=args.experiment_dir)
 
 
 if __name__ == '__main__':
