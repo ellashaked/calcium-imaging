@@ -3,7 +3,7 @@ from typing_extensions import Self
 import pandas as pd
 
 from calcium_imaging.constants import BACKGROUND_FLUORESCENCE_ROIS, TIME_COL
-from calcium_imaging.preprocessing import (
+from calcium_imaging.preprocessing_utils import (
     discard_first_n_points,
     subtract_background_fluorescence,
     smoothen,
