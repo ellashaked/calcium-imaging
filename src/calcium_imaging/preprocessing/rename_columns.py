@@ -11,6 +11,6 @@ def _rename_col(s: str, prefix_: str) -> str:
 
 
 def rename_columns(df: DataFrame, prefix_: str) -> DataFrame:
-    renamed_columns = [_rename_col(col, prefix_) for col in df.columns.tolist()]
-    result_df = df[renamed_columns]
+    old_to_new_names = {col: _rename_col(col, prefix_).lower() for col in df.columns.tolist()}
+    result_df = df.rename(columns=old_to_new_names)
     return result_df

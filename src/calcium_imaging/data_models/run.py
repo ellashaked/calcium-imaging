@@ -8,7 +8,8 @@ from calcium_imaging.preprocessing import (
     subtract_background_fluorescence,
     smoothen,
     normalize,
-    sort_columns
+    sort_columns,
+    rename_columns
 )
 
 
@@ -21,7 +22,7 @@ class Run:
         self.raw_df = sort_columns(df)
         self.df = df.copy(deep=True)
         self.id = self.name.split("-")[0].strip()  # TODO regex
-        self.condition_type = self.name.split("-")[-1].strip().lower()  # TODO regex
+        self.condition_type = self.name.split("-")[-1].strip()  # TODO regex
 
     def __repr__(self) -> str:
         return str(self.name)
@@ -32,4 +33,5 @@ class Run:
         self.df = subtract_background_fluorescence(self.df, BACKGROUND_FLUORESCENCE_ROIS)
         self.df = self.df.drop(columns=[TIME_COL] + BACKGROUND_FLUORESCENCE_ROIS)
         self.df = normalize(self.df, sampling_start_frame=1, sampling_end_frame=35)
+        self.df = rename_columns(self.df, f"run-{self.id}")
         return self
