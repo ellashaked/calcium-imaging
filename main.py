@@ -9,7 +9,7 @@ def main():
     parser.add_argument("--experiment_dir", type=str, default="./raw_data/fish_NCLX_10-04-25")
     args = parser.parse_args()
 
-    # analysis
+    # run
     build_mega_dfs(experiment_dir=args.experiment_dir)
 
 
