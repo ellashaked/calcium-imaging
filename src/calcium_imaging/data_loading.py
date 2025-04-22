@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import List
 
 from .data_models import Coverslip, ExperimentalCondition, Experiment
-from .io import load_coverslip
+from .io import load_coverslip, validate_experiment_dir
 
 
 def _instantiate_coverslips(experiment_dir_path: Path) -> List[Coverslip]:
@@ -40,8 +40,9 @@ def _instantiate_experiment(
     return experiment
 
 
-def load_experiment_from_dir(experiment_dir_path: Path):
+def load_experiment_from_dir(experiment_dir: str):
     """Reads an experiment directory and parses it into an Experiment class object"""
+    experiment_dir_path = validate_experiment_dir(experiment_dir)
     coverslips = _instantiate_coverslips(experiment_dir_path)
     experimental_conditions = _instantiate_experimental_conditions(coverslips)
     experiment = _instantiate_experiment(
