@@ -6,10 +6,14 @@ from .io import load_coverslip, validate_experiment_dir
 
 
 def _instantiate_coverslips(experiment_dir_path: Path) -> List[Coverslip]:
-    coverslips = [
-        Coverslip(*load_coverslip(coverslip_file_path)).preprocess()
-        for coverslip_file_path in experiment_dir_path.iterdir()
-    ]
+    coverslips = []
+    for coverslip_file_path in experiment_dir_path.iterdir():
+        try:
+            name, df = load_coverslip(coverslip_file_path)
+            coverslip = Coverslip(name, df).preprocess()
+            coverslips.append(coverslip)
+        except ValueError:
+            print(f"Error loading {coverslip_file_path.resolve()}, skipping.")
     return coverslips
 
 
