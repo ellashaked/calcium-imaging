@@ -8,6 +8,8 @@ def build_mega_dfs(experiment_dir: str, results_output_dir_path: str = "./result
     results_output_dir_path = Path(results_output_dir_path) / Path(experiment_dir).stem
     results_output_dir_path.mkdir(parents=True, exist_ok=True)
     for experimental_condition, df in experiment.experimental_condition_to_df.items():
-        df.to_excel(results_output_dir_path / f"{experimental_condition}.xlsx", index=False)
+        base = results_output_dir_path / experimental_condition
+        df.to_excel(base.with_suffix(".xlsx"), index=False)
+        df.to_csv(base.with_suffix(".csv"), index=False)
     print(f"Successfully saved {experiment.num_experimental_conditions} mega dfs to "
           f"{results_output_dir_path.resolve()}")
