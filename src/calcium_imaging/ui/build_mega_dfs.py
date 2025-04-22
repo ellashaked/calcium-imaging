@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from calcium_imaging.data_loading import load_experiment_from_dir
+from calcium_imaging.instantiation import load_experiment_from_dir
 
 
 def build_mega_dfs(experiment_dir: str, results_output_dir_path: str = "./results") -> None:
