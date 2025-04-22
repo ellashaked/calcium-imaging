@@ -20,8 +20,8 @@ class Coverslip:
         """Reads an Excel path and turns it into a Coverslip object"""
         self.name = name
         self.raw_df = sort_columns(df)
-        self.df = df.copy(deep=True)
-        self.id = self.name.split("-")[0].strip()  # TODO regex
+        self.df = self.raw_df.copy(deep=True)
+        self.id = int(self.name.split("-")[0].strip())  # TODO regex
         self.experimental_condition_type = self.name.split("-")[-1].strip()  # TODO regex
 
     def __repr__(self) -> str:
