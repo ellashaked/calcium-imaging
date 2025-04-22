@@ -1,13 +1,13 @@
 from typing import List
 
-from .condition import Condition
+from .experimental_condition import ExperimentalCondition
 
 
 class Experiment:
     """A folder containing multiple Conditions, e.g., 'SI_SH_check'."""
 
-    def __init__(self, name: str, conditions_list: List[Condition]) -> None:
-        """Holds multiple conditions of the same experiment."""
+    def __init__(self, name: str, experimental_conditions_list: List[ExperimentalCondition]) -> None:
+        """Holds multiple experimental conditions of the same experiment."""
         self.name = name
-        self.condition_to_df = {condition.condition_type: condition for condition in conditions_list}
-        self.condition_types = list(self.condition_to_df.keys())
+        self.experimental_condition_to_df = {condition.type: condition for condition in experimental_conditions_list}
+        self.experimental_condition_types = list(self.experimental_condition_to_df.keys())
