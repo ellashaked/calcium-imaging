@@ -13,11 +13,11 @@ from calcium_imaging.preprocessing import (
 )
 
 
-class Run:
+class Coverslip:
     """One plate"""
 
     def __init__(self, name: str, df: pd.DataFrame) -> None:
-        """Reads an Excel path and turns it into a run object"""
+        """Reads an Excel path and turns it into a Coverslip object"""
         self.name = name
         self.raw_df = sort_columns(df)
         self.df = df.copy(deep=True)
@@ -33,5 +33,5 @@ class Run:
         self.df = subtract_background_fluorescence(self.df, BACKGROUND_FLUORESCENCE_ROIS)
         self.df = self.df.drop(columns=[TIME_COL] + BACKGROUND_FLUORESCENCE_ROIS)
         self.df = normalize(self.df, sampling_start_frame=1, sampling_end_frame=35)
-        self.df = rename_columns(self.df, f"run-{self.id}")
+        self.df = rename_columns(self.df, f"cs-{self.id}")
         return self
