@@ -40,7 +40,7 @@ def _instantiate_experiment(
     return experiment
 
 
-def load_experiment_from_dir(experiment_dir: str):
+def load_experiment_from_dir(experiment_dir: str) -> Experiment:
     """Reads an experiment directory and parses it into an Experiment class object"""
     experiment_dir_path = validate_experiment_dir(experiment_dir)
     coverslips = _instantiate_coverslips(experiment_dir_path)
