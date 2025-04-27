@@ -8,6 +8,9 @@ from calcium_imaging.analysis import linear_fit, RegressionCoefficients1D
 
 class ROI:
     """Single region of interest"""
+    EFLUX_START_INDEX_OFFSET_FROM_PEAK = 5
+    EFLUX_END_INDEX_MAX_OFFSET_FROM_START = 30
+    EFLUX_END_INDEX_MIN_OFFSET_FROM_START = 10
 
     def __init__(
             self,
@@ -20,9 +23,21 @@ class ROI:
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
         self.series = series.copy(deep=True).rename(self.name)
 
+    def _get_eflux_start_index(self) -> int:
+        return self.get_peak_frame() + 5
+
+    def _get_eflux_end_index(self) -> int:
+        start_idx = self._get_eflux_start_index()
+        end_idx = start_idx + self.EFLUX_END_INDEX_MAX_OFFSET_FROM_START
+        while end_idx > start_idx + self.EFLUX_END_INDEX_MIN_OFFSET_FROM_START:
+            if self.series.loc[end_idx] >= 1.0:  # above baseline fluorescence level
+                return end_idx
+            end_idx -= 1
+        return end_idx  # start_idx + self.EFLUX_END_INDEX_MIN_OFFSET_FROM_START
+
     def _calculate_eflux_linear_coefficients(self) -> RegressionCoefficients1D:  # TODO magic numbers
-        start_idx = self.get_peak_frame() + 5
-        end_idx = start_idx + 30
+        start_idx = self._get_eflux_start_index()
+        end_idx = self._get_eflux_end_index()
         linear_coefficients = linear_fit(self.series, start_idx, end_idx)
         return linear_coefficients
 
