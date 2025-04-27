@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from numpy.polynomial.polynomial import polyfit
 
-from .regression_coefficients import RegressionCoefficients1D
+from calcium_imaging.data_models import RegressionCoefficients1D
 
 
 def linear_fit(series: pd.Series, start_idx: int, end_idx: int) -> RegressionCoefficients1D:
