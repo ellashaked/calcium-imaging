@@ -1,3 +1,5 @@
+from typing import Optional
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -30,8 +32,9 @@ class ROI:
     def get_peak_frame(self) -> int:
         return self.series.index.values[self.series.argmax()]
 
-    def visualize(self) -> None:
-        plt.title(self.name)
+    def visualize(self, title_prefix: Optional[str] = None) -> None:
+        title = self.name if title_prefix is None else f"{title_prefix}\n{self.name}"
+        plt.title(title)
         plt.xlabel("Frame")
         plt.ylabel("Fluorescence relative to background")
         self._plot_series()

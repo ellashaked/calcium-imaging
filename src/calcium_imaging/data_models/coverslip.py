@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Iterator
 
 import pandas as pd
 
@@ -23,6 +23,9 @@ class Coverslip:
 
     def __len__(self) -> int:
         return len(self.rois)
+
+    def __iter__(self) -> Iterator[ROI]:
+        return iter(self.rois)
 
     def get_df(self) -> pd.DataFrame:
         return pd.concat([roi.series for roi in self.rois], axis=1)

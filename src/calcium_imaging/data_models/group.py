@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Iterator
 
 import pandas as pd
 
@@ -26,6 +26,9 @@ class Group:
 
     def __len__(self) -> int:
         return len(self.coverslips)
+
+    def __iter__(self) -> Iterator[Coverslip]:
+        return iter(self.coverslips)
 
     @staticmethod
     def _init_coverslips(coverslips: List[Coverslip]) -> List[Coverslip]:

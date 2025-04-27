@@ -14,7 +14,12 @@ def main():
         experiment_dir="./raw_data/fish_NCLX_10-04-25",
         preprocessor=preprocessor
     )
-    experiment.save_mega_dfs("./results")
+    # experiment.save_mega_dfs("./results")
+    for group in experiment:
+        for coverslip in group:
+            for roi in coverslip:
+                roi.visualize(title_prefix=f"{experiment.name} || {group}")
+    print()
 
 
 if __name__ == '__main__':

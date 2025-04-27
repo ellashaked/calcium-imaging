@@ -1,7 +1,7 @@
-from typing import List, Dict
+from pathlib import Path
+from typing import List, Dict, Iterator
 
 import pandas as pd
-from pathlib import Path
 
 from .group import Group
 
@@ -21,6 +21,9 @@ class Experiment:
 
     def __len__(self) -> int:
         return len(self.groups)
+
+    def __iter__(self) -> Iterator[Group]:
+        return iter(self.groups)
 
     def get_group_type_to_df(self) -> Dict[str, pd.DataFrame]:
         return {g.group_type: g.get_df() for g in self.groups}
