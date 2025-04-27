@@ -8,17 +8,6 @@ from .data_models import ROI, Coverslip, Group, Experiment
 from .io import load_vsi, validate_experiment_dir
 
 
-def _instantiate_preprocessor() -> Preprocessor:
-    return Preprocessor(
-        first_n_points_to_discard=5,
-        smoothing_windows_size=2,
-        normalization_sampling_start_frame=1,
-        normalization_sampling_end_frame=35,
-        drop_time_col=True,
-        drop_background_fluorescence_cols=True,
-    )
-
-
 def _instantiate_rois(coverslip_id: int, df: pd.DataFrame, preprocessor: Preprocessor) -> List[ROI]:
     return sorted([
         ROI(
@@ -26,7 +15,7 @@ def _instantiate_rois(coverslip_id: int, df: pd.DataFrame, preprocessor: Preproc
             roi_id=extract_roi_id_from_col_name(str(col_name)),
             series=series
         )
-        for col_name, series in preprocessor.preprocess(df).iteritems()
+        for col_name, series in preprocessor.preprocess(df).items()
     ], key=lambda x: x.roi_id)
 
 
@@ -65,10 +54,7 @@ def _instantiate_groups(coverslips: List[Coverslip]) -> List[Group]:
     return groups
 
 
-def _instantiate_experiment(
-        experiment_name: str,
-        groups: List[Group]
-) -> Experiment:
+def _instantiate_experiment(experiment_name: str, groups: List[Group]) -> Experiment:
     experiment = Experiment(
         name=experiment_name,
         groups=groups
@@ -76,10 +62,9 @@ def _instantiate_experiment(
     return experiment
 
 
-def load_experiment_from_dir(experiment_dir: str) -> Experiment:
+def load_experiment(experiment_dir: str, preprocessor: Preprocessor) -> Experiment:
     """Reads an experiment directory and parses it into an Experiment class object"""
     experiment_dir_path = validate_experiment_dir(experiment_dir)
-    preprocessor = _instantiate_preprocessor()
     coverslips = _instantiate_coverslips(experiment_dir_path, preprocessor)
     groups = _instantiate_groups(coverslips)
     experiment = _instantiate_experiment(
