@@ -13,7 +13,11 @@ class Experiment:
         """Holds multiple groups of the same experiment."""
         self.name = name
         self.groups = sorted(groups, key=lambda g: g.group_type)
+        self._id2group = {g.group_type: g for g in self.groups}
         self.num_groups = len(self.groups)
+
+    def __getitem__(self, group_type: str) -> Group:
+        return self._id2group[group_type]
 
     def get_group_type_to_df(self) -> Dict[str, pd.DataFrame]:
         return {g.group_type: g.get_df() for g in self.groups}

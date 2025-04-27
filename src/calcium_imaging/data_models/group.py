@@ -11,6 +11,7 @@ class Group:
     def __init__(self, coverslips: List[Coverslip]) -> None:
         """Holds multiple runs of the same group"""
         self.coverslips = self._init_coverslips(coverslips)
+        self._id2coverslip = {cs.id: cs for cs in self.coverslips}
         self.group_type = self._infer_group_type()
         self.cells_count = len(coverslips)
 
@@ -19,6 +20,9 @@ class Group:
 
     def __repr__(self) -> str:
         return str(self.group_type)
+
+    def __getitem__(self, coverslip_id: int) -> Coverslip:
+        return self._id2coverslip[coverslip_id]
 
     @staticmethod
     def _init_coverslips(coverslips: List[Coverslip]) -> List[Coverslip]:

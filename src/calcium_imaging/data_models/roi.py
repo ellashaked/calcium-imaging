@@ -18,11 +18,17 @@ class ROI:
         self.series = series.copy(deep=True).rename(self.name)
 
     def calculate_eflux(self) -> float:  # TODO magic numbers
-        start_idx = detect_peak(self.series) + 5
+        start_idx = self.get_peak_frame() + 5
         end_idx = start_idx + 15
         linear_coefficients = linear_fit(self.series, start_idx, end_idx)
         eflux = linear_coefficients.slope
         return eflux
+
+    def get_peak_frame(self) -> int:
+        return self.series.argmax()
+
+    def visualize(self) -> None:
+        pass
 
     def __repr__(self) -> str:
         return self.name

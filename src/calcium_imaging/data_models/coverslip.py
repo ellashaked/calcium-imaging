@@ -10,12 +10,16 @@ class Coverslip:
 
     def __init__(self, coverslip_id: int, group_type: str, rois: List[ROI]) -> None:
         self.rois = self._init_rois(rois)
+        self._id2roi = {roi.roi_id: roi for roi in self.rois}
         self.id = coverslip_id
         self.group_type = group_type
         self.name = f"cs-{self.id}"
 
     def __repr__(self) -> str:
         return self.name
+
+    def __getitem__(self, roi_id: int) -> ROI:
+        return self._id2roi[roi_id]
 
     def get_df(self) -> pd.DataFrame:
         return pd.concat([roi.series for roi in self.rois], axis=1)
