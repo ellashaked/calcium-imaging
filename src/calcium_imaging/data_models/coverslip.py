@@ -24,9 +24,6 @@ class Coverslip:
     def get_df(self) -> pd.DataFrame:
         return pd.concat([roi.series for roi in self.rois], axis=1)
 
-    def calculate_eflux_rates(self) -> Dict[str, float]:
-        return {roi.name: roi.calculate_eflux() for roi in self.rois}
-
     @staticmethod
     def _init_rois(rois: List[ROI]) -> List[ROI]:
         rois = sorted(rois, key=lambda roi: roi.roi_id)
