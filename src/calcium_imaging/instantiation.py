@@ -2,14 +2,14 @@ from pathlib import Path
 from typing import List
 
 from .data_models import Coverslip, Group, Experiment
-from .io import load_coverslip, validate_experiment_dir
+from .io import load_vsi, validate_experiment_dir
 
 
 def _instantiate_coverslips(experiment_dir_path: Path) -> List[Coverslip]:
     coverslips = []
     for coverslip_file_path in experiment_dir_path.iterdir():
         try:
-            name, df = load_coverslip(coverslip_file_path)
+            name, df = load_vsi(coverslip_file_path)
             coverslip = Coverslip(name, df).preprocess()
             coverslips.append(coverslip)
         except ValueError:
