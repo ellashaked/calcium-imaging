@@ -19,6 +19,9 @@ class Experiment:
     def __getitem__(self, group_type: str) -> Group:
         return self._id2group[group_type]
 
+    def __len__(self) -> int:
+        return len(self.groups)
+
     def get_group_type_to_df(self) -> Dict[str, pd.DataFrame]:
         return {g.group_type: g.get_df() for g in self.groups}
 

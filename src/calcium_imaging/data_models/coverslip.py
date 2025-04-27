@@ -21,6 +21,9 @@ class Coverslip:
     def __getitem__(self, roi_id: int) -> ROI:
         return self._id2roi[roi_id]
 
+    def __len__(self) -> int:
+        return len(self.rois)
+
     def get_df(self) -> pd.DataFrame:
         return pd.concat([roi.series for roi in self.rois], axis=1)
 

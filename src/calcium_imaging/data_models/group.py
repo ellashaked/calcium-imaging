@@ -24,6 +24,9 @@ class Group:
     def __getitem__(self, coverslip_id: int) -> Coverslip:
         return self._id2coverslip[coverslip_id]
 
+    def __len__(self) -> int:
+        return len(self.coverslips)
+
     @staticmethod
     def _init_coverslips(coverslips: List[Coverslip]) -> List[Coverslip]:
         coverslips = sorted(coverslips, key=lambda cs: cs.id)
