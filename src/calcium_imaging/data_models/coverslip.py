@@ -4,7 +4,7 @@ import pandas as pd
 from typing_extensions import Self
 
 from calcium_imaging.analysis import calculate_eflux_rate
-from calcium_imaging.preprocessing_utils import sort_columns, preprocess_df
+from calcium_imaging.processing import sort_columns, preprocess_df
 
 
 class Coverslip:
