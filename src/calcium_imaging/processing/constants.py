@@ -1,3 +1,5 @@
+import re
+
 TIME_COL = "Time (ms)"
 
 BACKGROUND_FLUORESCENCE_ROI_1 = "ROI 1 (Average)"
@@ -8,3 +10,7 @@ BACKGROUND_FLUORESCENCE_ROIS = [
     BACKGROUND_FLUORESCENCE_ROI_2,
     BACKGROUND_FLUORESCENCE_ROI_3
 ]
+ROI_COL_PATTERN = re.compile(r'^ROI\s*(\d+)\s*\(Average\)$')
+COVERSLIP_FILENAME_STEM_PATTERN = re.compile(
+    r'^\s*(?P<coverslip_id>\d+)\s*-\s*(?P<group_type>.+?)\s*$'
+)

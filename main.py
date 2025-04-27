@@ -1,6 +1,6 @@
 import argparse
 
-from calcium_imaging.ui import build_mega_dfs
+from calcium_imaging import load_experiment_from_dir
 
 
 def main():
@@ -10,7 +10,9 @@ def main():
     args = parser.parse_args()
 
     # run
-    build_mega_dfs(experiment_dir=args.experiment_dir)
+    experiment = load_experiment_from_dir(experiment_dir=args.experiment_dir)
+    dfs = experiment.get_group_type_to_df()
+    print()
 
 
 if __name__ == '__main__':

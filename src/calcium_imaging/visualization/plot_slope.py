@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from calcium_imaging.data_models import RegressionCoefficients1D
+from calcium_imaging.analysis import RegressionCoefficients1D
 
 
 def plot_slope(

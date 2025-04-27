@@ -1,2 +1,3 @@
-from .rename_columns import rename_columns
+from .extract_coverslip_info_from_filename import CoverslipInfo, extract_coverslip_info_from_filename_stem
+from .extract_roi_id_from_col_name import extract_roi_id_from_col_name
 from .preprocessor import Preprocessor
