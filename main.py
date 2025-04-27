@@ -14,7 +14,7 @@ def main():
         experiment_dir="./raw_data/fish_NCLX_10-04-25",
         preprocessor=preprocessor
     )
-    experiment.save_mega_dfs("./results2")
+    experiment.save_mega_dfs("./results")
 
 
 if __name__ == '__main__':
