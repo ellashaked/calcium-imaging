@@ -1,17 +1,17 @@
 from typing import List
 
-from .experimental_condition import ExperimentalCondition
+from .group import Group
 
 
 class Experiment:
     """A folder containing multiple Conditions, e.g., 'SI_SH_check'."""
 
-    def __init__(self, name: str, experimental_conditions_list: List[ExperimentalCondition]) -> None:
-        """Holds multiple experimental conditions of the same experiment."""
+    def __init__(self, name: str, groups_list: List[Group]) -> None:
+        """Holds multiple groups of the same experiment."""
         self.name = name
-        self.experimental_conditions_list = experimental_conditions_list
-        self.experimental_condition_to_df = {
-            condition.type: condition.df for condition in experimental_conditions_list
+        self.groups_list = groups_list
+        self.group_to_df = {
+            group.group_type: group.df for group in groups_list
         }
-        self.experimental_condition_types = list(self.experimental_condition_to_df.keys())
-        self.num_experimental_conditions = len(self.experimental_condition_types)
+        self.group_types = list(self.group_to_df.keys())
+        self.num_groups = len(self.group_types)
