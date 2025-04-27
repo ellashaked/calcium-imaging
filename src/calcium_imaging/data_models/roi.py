@@ -11,6 +11,7 @@ class ROI:
     EFLUX_START_INDEX_OFFSET_FROM_PEAK = 5
     EFLUX_END_INDEX_MAX_OFFSET_FROM_START = 30
     EFLUX_END_INDEX_MIN_OFFSET_FROM_START = 10
+    FLUORESCENCE_CORRUPTION_THRESHOLD = 0.8
 
     def __init__(
             self,
@@ -28,7 +29,10 @@ class ROI:
 
     def _get_eflux_end_index(self) -> int:
         start_idx = self._get_eflux_start_index()
-        end_idx = start_idx + self.EFLUX_END_INDEX_MAX_OFFSET_FROM_START
+        end_idx = min(
+            start_idx + self.EFLUX_END_INDEX_MAX_OFFSET_FROM_START,
+            self.series.index.values.max()  # prevent out of bounds
+        )
         while end_idx > start_idx + self.EFLUX_END_INDEX_MIN_OFFSET_FROM_START:
             if self.series.loc[end_idx] >= 1.0:  # above baseline fluorescence level
                 return end_idx
@@ -52,9 +56,11 @@ class ROI:
         plt.title(title)
         plt.xlabel("Frame")
         plt.ylabel("Fluorescence relative to background")
+        plt.ylim((0.5, max(2.5, self.series.max())))
         self._plot_series()
         self._highlight_peak()
         self._plot_eflux()
+        self._plot_corruption_warning()
         plt.show()
 
     def _plot_series(self) -> None:
@@ -70,6 +76,26 @@ class ROI:
         x = self.series.index.values
         y = linear_coefficients.intercept + linear_coefficients.slope * x
         plt.plot(x, y, linestyle='--', color='black', zorder=3)
+
+    def _plot_corruption_warning(self) -> None:
+        """Shows a danger sign in case we are under corruption threshold"""
+        skip = 0
+        for xi, yi in self.series.items():
+            # If we're still in a skip window, just decrement and move on
+            if skip > 0:
+                skip -= 1
+            # Otherwise, check the threshold
+            elif yi < self.FLUORESCENCE_CORRUPTION_THRESHOLD:
+                # draw your warning sign
+                plt.text(
+                    xi, yi,
+                    u'\u26A0',  # Unicode warning sign
+                    fontsize=14,
+                    ha='center',
+                    va='bottom'
+                )
+                # now skip the next 5 iterations
+                skip = 5
 
     def __repr__(self) -> str:
         return self.name
