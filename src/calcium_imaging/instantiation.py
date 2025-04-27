@@ -27,7 +27,7 @@ def _instantiate_groups(coverslips_list: List[Coverslip]) -> List[Group]:
         ]
         new_group = Group(
             group_type=group_type,
-            coverslips_list=relevant_runs
+            coverslips=relevant_runs
         )
         groups_list.append(new_group)
     return groups_list
@@ -39,7 +39,7 @@ def _instantiate_experiment(
 ) -> Experiment:
     experiment = Experiment(
         name=experiment_name,
-        groups_list=groups_list
+        groups=groups_list
     )
     return experiment
 
