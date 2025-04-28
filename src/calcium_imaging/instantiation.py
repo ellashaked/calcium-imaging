@@ -13,9 +13,9 @@ def _instantiate_rois(coverslip_id: int, df: pd.DataFrame, preprocessor: Preproc
         ROI(
             coverslip_id=coverslip_id,
             roi_id=extract_roi_id_from_col_name(str(col_name)),
-            series=series
+            trace=trace
         )
-        for col_name, series in preprocessor.preprocess(df).items()
+        for col_name, trace in preprocessor.preprocess(df).items()
     ], key=lambda x: x.roi_id)
 
 

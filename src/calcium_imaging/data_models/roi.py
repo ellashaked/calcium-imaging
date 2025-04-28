@@ -17,12 +17,12 @@ class ROI:
             self,
             coverslip_id: int,
             roi_id: int,
-            series: pd.Series
+            trace: pd.Series
     ) -> None:
         self.coverslip_id = coverslip_id
         self.roi_id = roi_id
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
-        self.series = series.copy(deep=True).rename(self.name)
+        self.trace = trace.copy(deep=True).rename(self.name)
 
     def __repr__(self) -> str:
         return self.name
@@ -31,15 +31,15 @@ class ROI:
         return self._calculate_eflux_linear_coefficients().slope
 
     def get_peak_frame(self) -> int:
-        return self.series.index.values[self.series.argmax()]
+        return self.trace.index.values[self.trace.argmax()]
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
         title = self.name if title_prefix is None else f"{title_prefix}\n{self.name}"
         plt.title(title)
         plt.xlabel("Frame")
         plt.ylabel("Fluorescence relative to background")
-        plt.ylim((0.5, max(2.5, self.series.max())))
-        self._plot_series()
+        plt.ylim((0.5, max(2.5, self.trace.max())))
+        self._plot_trace()
         self._highlight_peak()
         self._plot_eflux()
         self._plot_corruption_warning()
@@ -52,10 +52,10 @@ class ROI:
         start_idx = self._get_eflux_start_index()
         end_idx = min(
             start_idx + self.EFLUX_END_INDEX_MAX_OFFSET_FROM_START,
-            self.series.index.values.max()  # prevent out of bounds
+            self.trace.index.values.max()  # prevent out of bounds
         )
         while end_idx > start_idx + self.EFLUX_END_INDEX_MIN_OFFSET_FROM_START:
-            if self.series.loc[end_idx] >= 1.0:  # above baseline fluorescence level
+            if self.trace.loc[end_idx] >= 1.0:  # above baseline fluorescence level
                 return end_idx
             end_idx -= 1
         return end_idx  # start_idx + self.EFLUX_END_INDEX_MIN_OFFSET_FROM_START
@@ -65,27 +65,27 @@ class ROI:
         end_idx = self._get_eflux_end_index()
         if end_idx <= start_idx:
             return RegressionCoefficients1D(-10, -10)
-        linear_coefficients = linear_fit(self.series, start_idx, end_idx)
+        linear_coefficients = linear_fit(self.trace, start_idx, end_idx)
         return linear_coefficients
 
-    def _plot_series(self) -> None:
-        plt.plot(self.series)
+    def _plot_trace(self) -> None:
+        plt.plot(self.trace)
 
     def _highlight_peak(self) -> None:
         x = self.get_peak_frame()
-        y = self.series[x]
+        y = self.trace[x]
         plt.scatter(x, y, color='red', s=100)
 
     def _plot_eflux(self) -> None:
         linear_coefficients = self._calculate_eflux_linear_coefficients()
-        x = self.series.index.values
+        x = self.trace.index.values
         y = linear_coefficients.intercept + linear_coefficients.slope * x
         plt.plot(x, y, linestyle='--', color='black', zorder=3)
 
     def _plot_corruption_warning(self) -> None:
         """Shows a danger sign in case we are under corruption threshold"""
         skip = 0
-        for xi, yi in self.series.items():
+        for xi, yi in self.trace.items():
             # If we're still in a skip window, just decrement and move on
             if skip > 0:
                 skip -= 1

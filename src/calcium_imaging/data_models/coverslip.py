@@ -28,7 +28,7 @@ class Coverslip:
         return iter(self.rois)
 
     def get_df(self) -> pd.DataFrame:
-        return pd.concat([roi.series for roi in self.rois], axis=1)
+        return pd.concat([roi.trace for roi in self.rois], axis=1)
 
     def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
         if not return_json:
