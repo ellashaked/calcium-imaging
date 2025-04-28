@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Dict, Iterator
+from typing import List, Dict, Iterator, Union
 
 import pandas as pd
 
@@ -24,6 +24,12 @@ class Experiment:
 
     def __iter__(self) -> Iterator[Group]:
         return iter(self.groups)
+
+    def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+        eflux_rates = []
+        for group in self.groups:
+            eflux_rates += group.calculate_eflux_rates(return_json=return_json)
+        return eflux_rates
 
     def get_group_type_to_df(self) -> Dict[str, pd.DataFrame]:
         return {g.group_type: g.get_df() for g in self.groups}

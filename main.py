@@ -1,3 +1,5 @@
+import pandas as pd
+
 from calcium_imaging import load_experiment, Preprocessor
 
 
@@ -15,6 +17,8 @@ def main():
         preprocessor=preprocessor
     )
     # experiment.save_mega_dfs("./results")
+    eflux_rates_df = pd.DataFrame.from_records(experiment.calculate_eflux_rates(return_json=True))
+
     for group in experiment:
         for coverslip in group:
             for roi in coverslip:

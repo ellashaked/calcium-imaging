@@ -1,4 +1,4 @@
-from typing import List, Iterator
+from typing import List, Iterator, Union, Dict
 
 import pandas as pd
 
@@ -29,6 +29,12 @@ class Group:
 
     def __iter__(self) -> Iterator[Coverslip]:
         return iter(self.coverslips)
+
+    def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+        eflux_rates = []
+        for cs in self.coverslips:
+            eflux_rates += cs.calculate_eflux_rates(return_json=return_json)
+        return eflux_rates
 
     @staticmethod
     def _init_coverslips(coverslips: List[Coverslip]) -> List[Coverslip]:

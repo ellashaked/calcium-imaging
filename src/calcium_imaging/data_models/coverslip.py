@@ -1,4 +1,4 @@
-from typing import Dict, List, Iterator
+from typing import Dict, List, Iterator, Union
 
 import pandas as pd
 
@@ -29,6 +29,19 @@ class Coverslip:
 
     def get_df(self) -> pd.DataFrame:
         return pd.concat([roi.series for roi in self.rois], axis=1)
+
+    def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+        if not return_json:
+            return [roi.calculate_eflux() for roi in self.rois]
+        return [
+            {
+                "group_type": self.group_type,
+                "coverslip": roi.coverslip_id,
+                "roi": roi.roi_id,
+                "eflux": roi.calculate_eflux()
+            }
+            for roi in self.rois
+        ]
 
     @staticmethod
     def _init_rois(rois: List[ROI]) -> List[ROI]:
