@@ -7,7 +7,7 @@ from calcium_imaging.analysis import linear_fit, RegressionCoefficients1D
 
 
 class ROI:
-    """Single region of interest"""
+    """Single region of interest TODO maybe rename to cell / response"""
     EFLUX_START_INDEX_OFFSET_FROM_PEAK = 5
     EFLUX_END_INDEX_MAX_OFFSET_FROM_START = 30
     EFLUX_END_INDEX_MIN_OFFSET_FROM_START = 10
@@ -23,6 +23,27 @@ class ROI:
         self.roi_id = roi_id
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
         self.series = series.copy(deep=True).rename(self.name)
+
+    def __repr__(self) -> str:
+        return self.name
+
+    def calculate_eflux(self) -> float:
+        return self._calculate_eflux_linear_coefficients().slope
+
+    def get_peak_frame(self) -> int:
+        return self.series.index.values[self.series.argmax()]
+
+    def visualize(self, title_prefix: Optional[str] = None) -> None:
+        title = self.name if title_prefix is None else f"{title_prefix}\n{self.name}"
+        plt.title(title)
+        plt.xlabel("Frame")
+        plt.ylabel("Fluorescence relative to background")
+        plt.ylim((0.5, max(2.5, self.series.max())))
+        self._plot_series()
+        self._highlight_peak()
+        self._plot_eflux()
+        self._plot_corruption_warning()
+        plt.show()
 
     def _get_eflux_start_index(self) -> int:
         return self.get_peak_frame() + 5
@@ -44,24 +65,6 @@ class ROI:
         end_idx = self._get_eflux_end_index()
         linear_coefficients = linear_fit(self.series, start_idx, end_idx)
         return linear_coefficients
-
-    def calculate_eflux(self) -> float:
-        return self._calculate_eflux_linear_coefficients().slope
-
-    def get_peak_frame(self) -> int:
-        return self.series.index.values[self.series.argmax()]
-
-    def visualize(self, title_prefix: Optional[str] = None) -> None:
-        title = self.name if title_prefix is None else f"{title_prefix}\n{self.name}"
-        plt.title(title)
-        plt.xlabel("Frame")
-        plt.ylabel("Fluorescence relative to background")
-        plt.ylim((0.5, max(2.5, self.series.max())))
-        self._plot_series()
-        self._highlight_peak()
-        self._plot_eflux()
-        self._plot_corruption_warning()
-        plt.show()
 
     def _plot_series(self) -> None:
         plt.plot(self.series)
@@ -96,6 +99,3 @@ class ROI:
                 )
                 # now skip the next 5 iterations
                 skip = 5
-
-    def __repr__(self) -> str:
-        return self.name
