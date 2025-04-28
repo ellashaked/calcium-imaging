@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 import pandas as pd
 
@@ -63,7 +63,7 @@ def _instantiate_experiment(experiment_name: str, groups: List[Group]) -> Experi
     return experiment
 
 
-def load_experiment(experiment_dir: str, preprocessor: Preprocessor) -> Experiment:
+def load_experiment(experiment_dir: Union[str, Path], preprocessor: Preprocessor) -> Experiment:
     """Reads an experiment directory and parses it into an Experiment class object"""
     experiment_dir_path = validate_experiment_dir(experiment_dir)
     coverslips = _instantiate_coverslips(experiment_dir_path, preprocessor)
