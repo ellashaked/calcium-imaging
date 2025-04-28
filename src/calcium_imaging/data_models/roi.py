@@ -63,6 +63,8 @@ class ROI:
     def _calculate_eflux_linear_coefficients(self) -> RegressionCoefficients1D:  # TODO magic numbers
         start_idx = self._get_eflux_start_index()
         end_idx = self._get_eflux_end_index()
+        if end_idx <= start_idx:
+            return RegressionCoefficients1D(-10, -10)
         linear_coefficients = linear_fit(self.series, start_idx, end_idx)
         return linear_coefficients
 
