@@ -68,7 +68,7 @@ class ROI:
         start_idx = self._get_eflux_start_index()
         end_idx = self._get_eflux_end_index()
         if end_idx <= start_idx:
-            return RegressionCoefficients1D(-10, -10)
+            raise RuntimeError(f"error calculating eflux in {self.name}, end_idx <= start_idx")
         linear_coefficients = linear_fit(self.trace, start_idx, end_idx)
         return linear_coefficients
 
