@@ -25,6 +25,7 @@ def _instantiate_coverslips(experiment_dir_path: Path, preprocessor: Preprocesso
         try:
             df = load_vsi(coverslip_file_path)
             coverslip_info = extract_coverslip_info_from_filename_stem(coverslip_file_path.stem)
+            print(f"\ninstantiating {coverslip_file_path.stem}")
             rois = _instantiate_rois(
                 coverslip_id=coverslip_info.coverslip_id,
                 df=df,
