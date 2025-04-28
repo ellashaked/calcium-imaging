@@ -26,10 +26,18 @@ class Experiment:
         return iter(self.groups)
 
     def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
-        eflux_rates = []
-        for group in self.groups:
-            eflux_rates += group.calculate_eflux_rates(return_json=return_json)
-        return eflux_rates
+        return [
+            eflux_rate
+            for group in self.groups
+            for eflux_rate in group.calculate_eflux_rates(return_json=return_json)
+        ]
+
+    def calculate_amplitudes(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+        return [
+            amplitude
+            for group in self.groups
+            for amplitude in group.calculate_amplitudes(return_json=return_json)
+        ]
 
     def get_group_type_to_df(self) -> Dict[str, pd.DataFrame]:
         return {g.group_type: g.get_df() for g in self.groups}

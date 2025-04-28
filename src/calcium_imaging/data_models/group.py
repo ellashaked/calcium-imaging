@@ -31,10 +31,18 @@ class Group:
         return iter(self.coverslips)
 
     def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
-        eflux_rates = []
-        for cs in self.coverslips:
-            eflux_rates += cs.calculate_eflux_rates(return_json=return_json)
-        return eflux_rates
+        return [
+            eflux_rate
+            for cs in self.coverslips
+            for eflux_rate in cs.calculate_eflux_rates(return_json=return_json)
+        ]
+
+    def calculate_amplitudes(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+        return [
+            amplitude
+            for cs in self.coverslips
+            for amplitude in cs.calculate_amplitudes(return_json=return_json)
+        ]
 
     @staticmethod
     def _init_coverslips(coverslips: List[Coverslip]) -> List[Coverslip]:

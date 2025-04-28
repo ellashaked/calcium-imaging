@@ -1,4 +1,4 @@
-from typing import Dict, List, Iterator, Union
+from typing import Dict, List, Iterator, Union, Callable
 
 import pandas as pd
 
@@ -30,18 +30,42 @@ class Coverslip:
     def get_df(self) -> pd.DataFrame:
         return pd.concat([roi.trace for roi in self.rois], axis=1)
 
-    def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+    def _calculate_metric(
+        self,
+        metric_calculation_func: Callable[['ROI'], float],
+        metric_name: str,
+        return_json: bool
+    ) -> Union[List[float], List[Dict[str, float]]]:
+        # first, compute all the raw values
+        values = [metric_calculation_func(roi) for roi in self.rois]
+
         if not return_json:
-            return [roi.calculate_eflux() for roi in self.rois]
+            return values
+
+        # otherwise build the JSON objects
         return [
             {
                 "group_type": self.group_type,
                 "coverslip": roi.coverslip_id,
                 "roi": roi.roi_id,
-                "eflux": roi.calculate_eflux()
+                metric_name: val
             }
-            for roi in self.rois
+            for roi, val in zip(self.rois, values)
         ]
+
+    def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+        return self._calculate_metric(
+            lambda roi: roi.calculate_eflux(),
+            metric_name="eflux",
+            return_json=return_json
+        )
+
+    def calculate_amplitudes(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+        return self._calculate_metric(
+            lambda roi: roi.calculate_amplitude(),
+            metric_name="amplitude",
+            return_json=return_json
+        )
 
     @staticmethod
     def _init_rois(rois: List[ROI]) -> List[ROI]:

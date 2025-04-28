@@ -30,7 +30,11 @@ class ROI:
     def calculate_eflux(self) -> float:
         return self._calculate_eflux_linear_coefficients().slope
 
-    def detect_peak(self) -> int:
+    def calculate_amplitude(self) -> float:
+        peak_idx = self.get_peak_idx()
+        return self.trace[peak_idx] - 1
+
+    def get_peak_idx(self) -> int:
         return self.trace.index.values[self.trace.argmax()]
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
@@ -46,7 +50,7 @@ class ROI:
         plt.show()
 
     def _get_eflux_start_index(self) -> int:
-        return self.detect_peak() + 5
+        return self.get_peak_idx() + 5
 
     def _get_eflux_end_index(self) -> int:
         start_idx = self._get_eflux_start_index()
@@ -72,7 +76,7 @@ class ROI:
         plt.plot(self.trace)
 
     def _highlight_peak(self) -> None:
-        x = self.detect_peak()
+        x = self.get_peak_idx()
         y = self.trace[x]
         plt.scatter(x, y, color='red', s=100)
 
