@@ -46,8 +46,8 @@ def main():
         normalization_sampling_start_frame=1,
         normalization_sampling_end_frame=35,
         earliest_onset_frame=50,
-        earliest_baseline_recovery_frame=90,
-        drop_traces_with_corrupted_peak=True,
+        earliest_baseline_recovery_frame=130,
+        drop_traces_with_corrupted_peak=False,
         drop_time_col=True,
         drop_background_fluorescence_cols=True,
     )
@@ -58,15 +58,16 @@ def main():
         print(experiment_dir.stem)
         print("-" * 50)
         experiment = load_experiment(experiment_dir=experiment_dir, preprocessor=preprocessor)
-
+        experiment["control"][8][4].set_peak_idx(5)
+        experiment["control"][8][4].visualize()
         # experiment.save_mega_dfs("./results")
-        eflux_rates_df = pd.DataFrame.from_records(experiment.calculate_eflux_rates(return_json=True))
-        visualize_eflux_box_plot(df=eflux_rates_df, experiment_name=experiment.name)
+        # eflux_rates_df = pd.DataFrame.from_records(experiment.calculate_eflux_rates(return_json=True))
+        # visualize_eflux_box_plot(df=eflux_rates_df, experiment_name=experiment.name)
+        #
+        # amplitudes_df = pd.DataFrame.from_records(experiment.calculate_amplitudes(return_json=True))
+        # visualize_amplitude_box_plot(df=amplitudes_df, experiment_name=experiment.name)
 
-        amplitudes_df = pd.DataFrame.from_records(experiment.calculate_amplitudes(return_json=True))
-        visualize_amplitude_box_plot(df=amplitudes_df, experiment_name=experiment.name)
-
-        # visualize_all_rois(experiment)
+        visualize_all_rois(experiment)
 
     print()
 

@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "calcium_imaging"
+version = "0.0.1"
+description = "Sekler :)"
+authors = [
+  { name="Eldar Abraham", email="eldar.abraham@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file="LICENSE" }

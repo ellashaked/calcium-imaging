@@ -23,6 +23,7 @@ class ROI:
         self.roi_id = roi_id
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
         self.trace = trace.copy(deep=True).rename(self.name)
+        self._peak_idx = self.auto_detect_peak_idx()
 
     def __repr__(self) -> str:
         return self.name
@@ -31,11 +32,14 @@ class ROI:
         return self._calculate_eflux_linear_coefficients().slope
 
     def calculate_amplitude(self) -> float:
-        peak_idx = self.get_peak_idx()
-        return self.trace[peak_idx] - 1
+        return self.trace[self._peak_idx] - 1
 
-    def get_peak_idx(self) -> int:
+    def auto_detect_peak_idx(self) -> int:
         return self.trace.index.values[self.trace.argmax()]
+
+    def set_peak_idx(self, peak_idx: int) -> None:
+        """Manually set peak idx using user input"""
+        self._peak_idx = peak_idx
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
         title = self.name if title_prefix is None else f"{title_prefix}\n{self.name}"
@@ -50,7 +54,7 @@ class ROI:
         plt.show()
 
     def _get_eflux_start_index(self) -> int:
-        return self.get_peak_idx() + 5
+        return self._peak_idx + 5
 
     def _get_eflux_end_index(self) -> int:
         start_idx = self._get_eflux_start_index()
@@ -76,7 +80,7 @@ class ROI:
         plt.plot(self.trace)
 
     def _highlight_peak(self) -> None:
-        x = self.get_peak_idx()
+        x = self._peak_idx
         y = self.trace[x]
         plt.scatter(x, y, color='red', s=100)
 
