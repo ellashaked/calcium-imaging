@@ -54,7 +54,7 @@ class ROI:
         plt.show()
 
     def _get_eflux_start_index(self) -> int:
-        return self._peak_idx + 5
+        return self._peak_idx + self.EFLUX_START_INDEX_OFFSET_FROM_PEAK
 
     def _get_eflux_end_index(self) -> int:
         start_idx = self._get_eflux_start_index()
