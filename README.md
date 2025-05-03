@@ -11,7 +11,7 @@ Easily analyze VSI outputs.
 **Install the toolkit** - execute this in the first cell of your notebook:
 
 ```shell
-!rm -rf calcium-imaging && git clone https://github.com/ellashaked/calcium-imaging.git && cd abusify && pip install .
+!rm -rf calcium-imaging && git clone https://github.com/ellashaked/calcium-imaging.git && cd calcium-imaging && pip install .
 ```
 
 ### 2. Setup Google Drive
