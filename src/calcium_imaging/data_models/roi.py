@@ -10,7 +10,7 @@ class ROI:
     """Single region of interest TODO maybe rename to cell / response"""
     EFLUX_START_INDEX_OFFSET_FROM_PEAK = 5
     EFLUX_END_INDEX_MAX_OFFSET_FROM_START = 30
-    EFLUX_END_INDEX_MIN_OFFSET_FROM_START = 10
+    EFLUX_END_INDEX_MIN_OFFSET_FROM_START = 3
     FLUORESCENCE_CORRUPTION_THRESHOLD = 0.8
 
     def __init__(
