@@ -16,6 +16,7 @@ def create_traces_figure(
         yaxis_range: Optional[Tuple[float, float]] = None,
         eflux_linear_coefficients: Optional[RegressionCoefficients1D] = None,
         influx_linear_coefficients: Optional[RegressionCoefficients1D] = None,
+        traces_color: Optional[str] = "blue"
 ) -> go.Figure:
     # --- base trace ---
     fig = go.Figure()
@@ -26,7 +27,7 @@ def create_traces_figure(
             y=main_trace.values,
             mode="lines",
             name=main_trace.name,
-            line=dict(color="blue")
+            line=dict(color=traces_color)
         )
     )
 
@@ -39,7 +40,7 @@ def create_traces_figure(
                     mode="lines",
                     name=trace.name,
                     opacity=0.1,
-                    line=dict(color="blue")
+                    line=dict(color=traces_color)
                 )
             )
 
