@@ -2,7 +2,9 @@ from pathlib import Path
 from typing import List, Dict, Iterator, Union
 
 import pandas as pd
+import plotly.graph_objects as go
 
+from calcium_imaging.viz import create_traces_figure, get_n_colors_from_palette
 from .group import Group
 
 
@@ -24,6 +26,45 @@ class Experiment:
 
     def __iter__(self) -> Iterator[Group]:
         return iter(self.groups)
+
+    def visualize(self) -> None:
+        colors = get_n_colors_from_palette(self.num_groups)
+
+        all_traces = []
+        max_trace_val = 0
+        for color, group in zip(colors, self.groups):
+            rois_traces = [roi.trace for cs in group for roi in cs]
+            average_trace = pd.Series(pd.concat(rois_traces, axis=1).mean(axis=1))
+            average_trace.name = f"{group.group_type} mean"
+            if average_trace.max() > max_trace_val:
+                max_trace_val = average_trace.max()
+            group_fig = create_traces_figure(
+                main_trace=average_trace,
+                traces_color=color
+            )
+            all_traces.append(group_fig.data[0])
+
+        # Combine all traces into one figure
+        fig = go.Figure(data=all_traces)
+        fig.update_layout(
+            title=self.name,
+            xaxis_title="Frame",
+            yaxis_title="Fluorescence relative to background",
+            yaxis_range=(0.5, max_trace_val * 1.1),
+            xaxis=dict(showgrid=False),
+            yaxis=dict(showgrid=False),
+            template="plotly_white",
+            legend=dict(
+                orientation="v",
+                yanchor="top",
+                y=1,
+                xanchor="left",
+                x=1.05,
+                font=dict(size=10),
+                traceorder="normal",
+            ),
+        )
+        fig.show()
 
     def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
         return [

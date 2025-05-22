@@ -33,7 +33,8 @@ class Coverslip:
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
         rois_traces = [roi.trace for roi in self.rois]
-        average_trace = pd.concat(rois_traces, axis=1).mean(axis=1)
+        average_trace = pd.Series(pd.concat(rois_traces, axis=1).mean(axis=1))
+        average_trace.name = f"Coverslip {self.id} mean"
         create_traces_figure(
             main_trace=average_trace,
             additional_traces=rois_traces,

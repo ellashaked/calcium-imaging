@@ -1,1 +1,2 @@
 from .create_trace_figure import create_traces_figure
+from .plotly_color_iterator import get_n_colors_from_palette

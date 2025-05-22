@@ -87,9 +87,17 @@ def create_traces_figure(
         yaxis_title=yaxis_title,
         yaxis_range=yaxis_range,
         template="plotly_white",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         xaxis=dict(showgrid=False),
-        yaxis=dict(showgrid=False)
+        yaxis=dict(showgrid=False),
+        legend=dict(
+            orientation="v",
+            yanchor="top",
+            y=1,
+            xanchor="left",
+            x=1.05,
+            font=dict(size=10),
+            traceorder="normal",
+        ),
     )
 
     return fig
