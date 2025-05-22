@@ -35,10 +35,11 @@ class Group:
         rois_traces = [roi.trace for cs in self.coverslips for roi in cs]
         average_trace = pd.Series(pd.concat(rois_traces, axis=1).mean(axis=1))
         average_trace.name = f"{self.group_type.title()} mean"
+        base_title = f"{self.group_type} (Coverslips {', '.join([str(cs.id) for cs in self.coverslips])})"
         create_traces_figure(
             main_trace=average_trace,
             additional_traces=rois_traces,
-            title=self.group_type if title_prefix is None else f"{title_prefix}\n{self.group_type}",
+            title=base_title if title_prefix is None else f"{title_prefix}\n{base_title}",
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",
             yaxis_range=(0.5, max(2.5, average_trace.max())),
