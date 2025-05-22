@@ -3,7 +3,7 @@ from typing import Optional
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from calcium_imaging.analysis import linear_fit, RegressionCoefficients1D
+from calcium_imaging.analysis import linear_fit, RegressionCoefficients1D, detect_peak_index
 from calcium_imaging.viz import create_traces_figure
 
 
@@ -24,7 +24,7 @@ class ROI:
         self.roi_id = roi_id
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
         self.trace = trace.copy(deep=True).rename(self.name)
-        self._peak_idx = self.auto_detect_peak_idx()
+        self._peak_idx = detect_peak_index(self.trace)
 
     def __repr__(self) -> str:
         return self.name
@@ -34,9 +34,6 @@ class ROI:
 
     def calculate_amplitude(self) -> float:
         return self.trace[self._peak_idx] - 1
-
-    def auto_detect_peak_idx(self) -> int:
-        return self.trace.index.values[self.trace.argmax()]
 
     def set_peak_idx(self, peak_idx: int) -> None:
         """Manually set peak idx using user input"""
