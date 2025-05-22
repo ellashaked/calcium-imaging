@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Iterable
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -6,8 +6,9 @@ import plotly.graph_objects as go
 from calcium_imaging.analysis import RegressionCoefficients1D
 
 
-def create_trace_figure(
-        trace: pd.Series,
+def create_traces_figure(
+        main_trace: pd.Series,
+        additional_traces: Optional[Iterable[pd.Series]] = None,
         title: Optional[str] = None,
         xaxis_title: Optional[str] = None,
         yaxis_title: Optional[str] = None,
@@ -18,20 +19,35 @@ def create_trace_figure(
 ) -> go.Figure:
     # --- base trace ---
     fig = go.Figure()
+
     fig.add_trace(
         go.Scatter(
-            x=trace.index.values,
-            y=trace.values,
+            x=main_trace.index.values,
+            y=main_trace.values,
             mode="lines",
-            name=trace.name
+            name=main_trace.name,
+            line=dict(color="blue")
         )
     )
+
+    if additional_traces is not None:
+        for trace in additional_traces:
+            fig.add_trace(
+                go.Scatter(
+                    x=trace.index.values,
+                    y=trace.values,
+                    mode="lines",
+                    name=trace.name,
+                    opacity=0.1,
+                    line=dict(color="blue")
+                )
+            )
 
     if highlight_index is not None:
         fig.add_trace(
             go.Scatter(
                 x=[highlight_index],
-                y=[trace[highlight_index]],
+                y=[main_trace[highlight_index]],
                 mode="markers",
                 marker=dict(size=12, color="red", symbol="circle"),
                 name="Peak"
@@ -39,7 +55,7 @@ def create_trace_figure(
         )
 
     if eflux_linear_coefficients is not None:
-        x_vals = trace.index.values
+        x_vals = main_trace.index.values
         y_vals = eflux_linear_coefficients.slope * x_vals + eflux_linear_coefficients.intercept
         fig.add_trace(
             go.Scatter(
@@ -52,7 +68,7 @@ def create_trace_figure(
         )
 
     if influx_linear_coefficients is not None:
-        x_vals = trace.index.values
+        x_vals = main_trace.index.values
         y_vals = influx_linear_coefficients.slope * x_vals + influx_linear_coefficients.intercept
         fig.add_trace(
             go.Scatter(

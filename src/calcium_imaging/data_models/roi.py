@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from calcium_imaging.analysis import linear_fit, RegressionCoefficients1D
-from calcium_imaging.viz import create_trace_figure
+from calcium_imaging.viz import create_traces_figure
 
 
 class ROI:
@@ -43,8 +43,8 @@ class ROI:
         self._peak_idx = peak_idx
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
-        create_trace_figure(
-            trace=self.trace,
+        create_traces_figure(
+            main_trace=self.trace,
             title=self.name if title_prefix is None else f"{title_prefix}\n{self.name}",
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",

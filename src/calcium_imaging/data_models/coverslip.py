@@ -1,7 +1,8 @@
-from typing import Dict, List, Iterator, Union, Callable
+from typing import Dict, List, Iterator, Union, Callable, Optional
 
 import pandas as pd
 
+from calcium_imaging.viz import create_traces_figure
 from .roi import ROI
 
 
@@ -30,11 +31,23 @@ class Coverslip:
     def get_df(self) -> pd.DataFrame:
         return pd.concat([roi.trace for roi in self.rois], axis=1)
 
+    def visualize(self, title_prefix: Optional[str] = None) -> None:
+        rois_traces = [roi.trace for roi in self.rois]
+        average_trace = pd.concat(rois_traces, axis=1).mean(axis=1)
+        create_traces_figure(
+            main_trace=average_trace,
+            additional_traces=rois_traces,
+            title=self.name if title_prefix is None else f"{title_prefix}\n{self.name}",
+            xaxis_title="Frame",
+            yaxis_title="Fluorescence relative to background",
+            yaxis_range=(0.5, max(2.5, average_trace.max())),
+        ).show()
+
     def _calculate_metric(
-        self,
-        metric_calculation_func: Callable[['ROI'], float],
-        metric_name: str,
-        return_json: bool
+            self,
+            metric_calculation_func: Callable[['ROI'], float],
+            metric_name: str,
+            return_json: bool
     ) -> Union[List[float], List[Dict[str, float]]]:
         # first, compute all the raw values
         values = [metric_calculation_func(roi) for roi in self.rois]
