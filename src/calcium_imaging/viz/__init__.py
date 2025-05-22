@@ -1,1 +1,1 @@
-from .plot_trace import plot_trace
+from .create_trace_figure import create_trace_figure
