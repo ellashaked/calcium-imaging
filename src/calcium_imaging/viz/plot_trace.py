@@ -40,7 +40,9 @@ def plot_trace(
         yaxis_title=yaxis_title,
         yaxis_range=yaxis_range,
         template="plotly_white",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        xaxis=dict(showgrid=False),
+        yaxis=dict(showgrid=False)
     )
 
     fig.show()
