@@ -34,7 +34,7 @@ class Group:
     def visualize(self, title_prefix: Optional[str] = None) -> None:
         rois_traces = [roi.trace for cs in self.coverslips for roi in cs]
         average_trace = pd.Series(pd.concat(rois_traces, axis=1).mean(axis=1))
-        average_trace.name = f"{self.group_type.title()} mean"
+        average_trace.name = f"{self.group_type} mean"
         base_title = f"{self.group_type} (Coverslips {', '.join([str(cs.id) for cs in self.coverslips])})"
         create_traces_figure(
             main_trace=average_trace,
