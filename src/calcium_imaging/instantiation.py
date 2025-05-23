@@ -3,17 +3,18 @@ from typing import List, Union
 
 import pandas as pd
 
-from .processing import Preprocessor, extract_roi_id_from_col_name, extract_coverslip_info_from_filename_stem
+from .processing import Preprocessor, CoverslipInfo, extract_roi_id_from_col_name, extract_coverslip_info_from_filename_stem
 from .data_models import ROI, Coverslip, Group, Experiment
 from .io import load_vsi, validate_experiment_dir
 
 
-def _instantiate_rois(coverslip_id: int, df: pd.DataFrame, preprocessor: Preprocessor) -> List[ROI]:
+def _instantiate_rois(coverslip_info: CoverslipInfo, df: pd.DataFrame, preprocessor: Preprocessor) -> List[ROI]:
     return sorted([
         ROI(
-            coverslip_id=coverslip_id,
+            trace=trace,
             roi_id=extract_roi_id_from_col_name(str(col_name)),
-            trace=trace
+            coverslip_id=coverslip_info.coverslip_id,
+            group_type=coverslip_info.group_type,
         )
         for col_name, trace in preprocessor.preprocess(df).items()
     ], key=lambda x: x.roi_id)
@@ -27,7 +28,7 @@ def _instantiate_coverslips(experiment_dir_path: Path, preprocessor: Preprocesso
             coverslip_info = extract_coverslip_info_from_filename_stem(coverslip_file_path.stem)
             print(f"\ninstantiating {coverslip_file_path.stem}")
             rois = _instantiate_rois(
-                coverslip_id=coverslip_info.coverslip_id,
+                coverslip_info=coverslip_info,
                 df=df,
                 preprocessor=preprocessor
             )

@@ -18,13 +18,16 @@ class ROI:
 
     def __init__(
             self,
-            coverslip_id: int,
+            trace: pd.Series,
             roi_id: int,
-            trace: pd.Series
+            coverslip_id: int,
+            group_type: str,
     ) -> None:
         self.coverslip_id = coverslip_id
         self.roi_id = roi_id
+        self.group_type = group_type
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
+        self.title = f"ROI {self.roi_id} (Coverslip {self.coverslip_id}, {self.group_type})"
         self.trace = trace.copy(deep=True).rename(self.name)
         self.onset_idx = detect_onset_index(self.trace)
         self.peak_idx = detect_peak_index(self.trace)
@@ -52,7 +55,6 @@ class ROI:
         return self.trace[self.peak_idx] - 1
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
-        base_title = f"ROI {self.roi_id} (Coverslip {self.coverslip_id})"
         influx_linear_coefficients = calculate_influx_linear_coefficients(
             trace=self.trace,
             start_idx=self.influx_start_idx,
@@ -65,7 +67,7 @@ class ROI:
         )
         create_traces_figure(
             main_trace=self.trace,
-            title=base_title if title_prefix is None else f"{title_prefix}\n{base_title}",
+            title=self.title if title_prefix is None else f"{title_prefix}\n{self.title}",
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",
             main_trace_peak_index=self.peak_idx,

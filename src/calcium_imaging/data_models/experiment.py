@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import List, Dict, Iterator, Union
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -72,8 +73,9 @@ class Experiment:
                     try:
                         roi.visualize()
                     except Exception as e:
-                        print(f"error visualizing group '{group.group_type}',"
-                              f" coverslip {coverslip.id}, roi {roi.roi_id}\n {e}")
+                        print(e)
+                        roi.trace.plot()
+                        plt.title(f"{roi}")
 
     def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
         return [
