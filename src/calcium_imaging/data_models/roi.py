@@ -77,4 +77,4 @@ class ROI:
         ).show()
 
     def __repr__(self) -> str:
-        return self.name
+        return self.title

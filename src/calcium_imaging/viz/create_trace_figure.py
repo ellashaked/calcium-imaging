@@ -134,7 +134,7 @@ def create_traces_figure(
         title=title,
         xaxis_title=xaxis_title,
         yaxis_title=yaxis_title,
-        yaxis_range=yaxis_range if yaxis_range[1] < main_trace.max() else (yaxis_range[0], main_trace.max() + 0.1),
+        yaxis_range=yaxis_range if yaxis_range[1] > main_trace.max() else (yaxis_range[0], main_trace.max() + 0.1),
         template="plotly_white",
         xaxis=dict(showgrid=False),
         yaxis=dict(showgrid=False),
