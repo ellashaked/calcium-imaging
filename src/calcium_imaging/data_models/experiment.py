@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.graph_objects as go
 
+from calcium_imaging.ui import get_bool_input, get_int_input
 from calcium_imaging.viz import create_traces_figure, get_n_colors_from_palette
 from .group import Group
+from .roi import ROI
 
 
 class Experiment:
@@ -18,6 +20,7 @@ class Experiment:
         self.groups = sorted(groups, key=lambda g: g.group_type)
         self._id2group = {g.group_type: g for g in self.groups}
         self.num_groups = len(self.groups)
+        self.num_rois = len([roi for roi in self.iter_rois()])
 
     def __getitem__(self, group_type: str) -> Group:
         return self._id2group[group_type]
@@ -67,15 +70,52 @@ class Experiment:
         fig.show()
 
     def visualize_all_rois(self) -> None:
-        for group in self.groups:
-            for coverslip in group.coverslips:
-                for roi in coverslip.rois:
-                    try:
-                        roi.visualize()
-                    except Exception as e:
-                        print(e)
-                        roi.trace.plot()
-                        plt.title(f"{roi}")
+        for roi in self.iter_rois():
+            try:
+                roi.visualize()
+            except Exception as e:
+                print(e)
+                print(f"consider exp['{roi.group_type}'][{roi.coverslip_id}].drop(roi_id={roi.roi_id})")
+                print("fallback visualization: ")
+                roi.trace.plot()
+                plt.title(roi.title)
+                plt.show()
+
+    def run_manual_analysis(self) -> None:
+        for i, roi in enumerate(self.iter_rois()):
+            try:
+                print(f"ROI {i}/{self.num_rois}")
+                self._ask_to_update_params(roi)
+            except Exception as e:
+                print(e)
+                print("fallback visualization: ")
+                roi.trace.plot()
+                plt.title(roi.title)
+                plt.show()
+                drop = get_bool_input("drop ROI? (y/n): ")
+                if drop:
+                    msg = f"deleted {roi.title}"
+                    del roi
+                    print(msg)
+                else:
+                    self._ask_to_update_params(roi)
+
+    @staticmethod
+    def _ask_to_update_params(roi: ROI):
+        while True:
+            roi.visualize()
+            peak_idx = get_int_input(f"peak_idx={roi.peak_idx}, enter to accept or input to edit: ")
+            if peak_idx is not None:
+                roi.set_peak_idx(peak_idx)
+
+            onset_idx = get_int_input(f"onset_idx={roi.onset_idx}, enter to accept or input to edit: ")
+            if onset_idx is not None:
+                roi.set_onset_idx(onset_idx)
+
+            if peak_idx is not None or onset_idx is not None:
+                roi.visualize()
+            else:
+                break
 
     def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
         return [
@@ -102,3 +142,10 @@ class Experiment:
             df.to_excel(base.with_suffix(".xlsx"), index=False)
             df.to_csv(base.with_suffix(".csv"), index=False)
         print(f"Successfully saved {self.num_groups} mega dfs to {results_output_dir_path.resolve()}")
+
+    def iter_rois(self) -> Iterator[ROI]:
+        for group in self.groups:
+            for coverslip in group.coverslips:
+                for roi in coverslip.rois:
+                    yield roi
+

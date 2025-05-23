@@ -76,5 +76,14 @@ class ROI:
             influx_linear_coefficients=influx_linear_coefficients
         ).show()
 
+    def set_peak_idx(self, peak_idx: int) -> None:
+        self.peak_idx = peak_idx
+        self.influx_end_idx = self.peak_idx
+        self.eflux_start_idx = self.peak_idx + self.EFLUX_START_INDEX_OFFSET_FROM_PEAK
+
+    def set_onset_idx(self, onset_idx: int) -> None:
+        self.onset_idx = onset_idx
+        self.influx_start_idx = self.onset_idx
+
     def __repr__(self) -> str:
         return self.title
