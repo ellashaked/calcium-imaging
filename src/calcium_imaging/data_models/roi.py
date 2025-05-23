@@ -28,12 +28,12 @@ class ROI:
         self.roi_id = roi_id
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
         self.trace = trace.copy(deep=True).rename(self.name)
+        self.onset_idx = detect_onset_index(self.trace)
+        self.peak_idx = detect_peak_index(self.trace)
         self.influx_start_idx = detect_influx_start_index(self.trace)
         self.influx_end_idx = detect_influx_end_index(self.trace)
-        self.peak_idx = detect_peak_index(self.trace)
         self.eflux_start_idx = detect_eflux_start_index(self.trace)
         self.eflux_end_idx = detect_eflux_end_index(self.trace)
-        self.onset_idx = 60
         self.baseline_return_idx = None
 
     def calculate_influx(self) -> float:

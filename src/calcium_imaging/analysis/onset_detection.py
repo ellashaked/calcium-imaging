@@ -1,38 +1,39 @@
 import pandas as pd
-import numpy as np
 
 
 def detect_onset_index(
         trace: pd.Series,
-        minimal_onset_index: int,
-        maximal_onset_index: int,
-        baseline_start_index: int,
-        baseline_end_index: int,
-        z_threshold: float = 3.0
+        start_bound: int = 40,
+        end_bound: int = 80,
+        baseline_window: int = 30,
+        sliding_window: int = 3,
+        threshold_factor: float = 3.0
 ) -> int:
     """
-    Detects onset in a transient response trace by analyzing delta fluctuations.
+    Detects the onset of a transient in a trace within a given window.
 
     Parameters:
-    - trace: pd.Series, the transient response signal
-    - start_bound: int, lower bound index for searching onset
-    - end_bound: int, upper bound index for searching onset
-    - z_threshold: float, threshold in std deviations above baseline delta for onset detection
+    - trace: pd.Series of numeric values
+    - start_bound: index to start searching for the onset
+    - end_bound: index to stop searching
+    - baseline_window: number of points before start_bound to estimate baseline fluctuation
+    - sliding_window: size of the moving average window (delta computed over this window)
+    - threshold_factor: multiplier of baseline std to define onset
 
     Returns:
-    - int: Index where onset is detected, or -1 if not detected
+    - onset index (int) within bounds where signal "explodes"
     """
-    # Compute baseline deltas
-    baseline_window = trace[baseline_start_index:baseline_end_index]
-    baseline_deltas = np.abs(np.diff(baseline_window))
-    baseline_mean = baseline_deltas.mean()
-    baseline_std = baseline_deltas.std()
-    threshold = baseline_mean + z_threshold * baseline_std
+    if start_bound - baseline_window < 0:
+        raise ValueError("Not enough data before start_bound to compute baseline")
 
-    # Search for first delta above threshold
-    for i in range(minimal_onset_index, min(maximal_onset_index, len(trace) - 1)):
-        delta = abs(trace.iloc[i + 1] - trace.iloc[i])
-        if delta > threshold:
-            return i + 1
+    baseline = trace.iloc[start_bound - baseline_window:start_bound]
+    baseline_std = baseline.diff().dropna().abs().mean()
 
-    return minimal_onset_index
+    for i in range(start_bound, end_bound - sliding_window):
+        window = trace.iloc[i:i + sliding_window]
+        delta = window.diff().abs().mean()
+        if delta > threshold_factor * baseline_std:
+            return trace.index[i]
+
+    print("No onset detected within the specified bounds")
+    return start_bound
