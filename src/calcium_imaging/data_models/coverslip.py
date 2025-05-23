@@ -46,7 +46,6 @@ class Coverslip:
             title=base_title if title_prefix is None else f"{title_prefix}\n{base_title}",
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",
-            yaxis_range=(0.5, max(2.5, average_trace.max())),
         ).show()
 
     def _calculate_metric(

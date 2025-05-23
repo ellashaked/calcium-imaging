@@ -50,7 +50,6 @@ class Experiment:
             title=self.name,
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",
-            yaxis_range=(0.5, max_trace_val * 1.1),
             xaxis=dict(showgrid=False),
             yaxis=dict(showgrid=False),
             template="plotly_white",

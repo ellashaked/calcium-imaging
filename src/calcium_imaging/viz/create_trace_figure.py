@@ -17,9 +17,9 @@ def create_traces_figure(
         title: Optional[str] = None,
         xaxis_title: Optional[str] = None,
         yaxis_title: Optional[str] = None,
-        yaxis_range: Optional[Tuple[float, float]] = None,
         eflux_linear_coefficients: Optional[RegressionCoefficients1D] = None,
         influx_linear_coefficients: Optional[RegressionCoefficients1D] = None,
+        yaxis_range: Optional[Tuple[float, float]] = (0.5, 2),
         traces_color: Optional[str] = "blue"
 ) -> go.Figure:
     # --- base trace ---

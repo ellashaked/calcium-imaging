@@ -70,7 +70,6 @@ class ROI:
             title=base_title if title_prefix is None else f"{title_prefix}\n{base_title}",
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",
-            yaxis_range=(0.5, max(2.5, self.trace.max())),
             main_trace_peak_index=self.peak_idx,
             main_trace_onset_index=self.onset_idx,
             eflux_linear_coefficients=eflux_linear_coefficients,
