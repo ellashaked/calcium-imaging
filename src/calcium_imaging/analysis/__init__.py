@@ -1,3 +1,5 @@
-from .detect_peak_index import detect_peak_index
+from .eflux_calculation import calculate_eflux_linear_coefficients, detect_eflux_start_index, detect_eflux_end_index
+from .influx_calculation import calculate_influx_linear_coefficients, detect_influx_start_index, detect_influx_end_index
 from .linear_fit import linear_fit
+from .peak_detection import detect_peak_index
 from .regression_coefficients import RegressionCoefficients1D
