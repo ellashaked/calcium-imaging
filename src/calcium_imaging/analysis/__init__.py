@@ -1,5 +1,5 @@
 from .eflux_calculation import calculate_eflux_linear_coefficients, detect_eflux_start_index, detect_eflux_end_index
-from .influx_calculation import calculate_influx_linear_coefficients, detect_influx_start_index, detect_influx_end_index
+from .influx_calculation import calculate_influx_linear_coefficients
 from .linear_fit import linear_fit
 from .onset_detection import detect_onset_index
 from .peak_detection import detect_peak_index

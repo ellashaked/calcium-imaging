@@ -65,6 +65,16 @@ class Experiment:
         )
         fig.show()
 
+    def visualize_all_rois(self) -> None:
+        for group in self.groups:
+            for coverslip in group.coverslips:
+                for roi in coverslip.rois:
+                    try:
+                        roi.visualize()
+                    except Exception as e:
+                        print(f"error visualizing group '{group.group_type}',"
+                              f" coverslip {coverslip.id}, roi {roi.roi_id}\n {e}")
+
     def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
         return [
             eflux_rate
