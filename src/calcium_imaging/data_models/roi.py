@@ -5,6 +5,7 @@ import pandas as pd
 from calcium_imaging.analysis import (
     calculate_eflux_linear_coefficients,
     calculate_influx_linear_coefficients,
+    detect_onset_index,
     detect_peak_index,
     detect_eflux_start_index,
     detect_eflux_end_index,
@@ -27,12 +28,12 @@ class ROI:
         self.roi_id = roi_id
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
         self.trace = trace.copy(deep=True).rename(self.name)
-        self.reaction_onset_idx = None
         self.influx_start_idx = detect_influx_start_index(self.trace)
         self.influx_end_idx = detect_influx_end_index(self.trace)
         self.peak_idx = detect_peak_index(self.trace)
         self.eflux_start_idx = detect_eflux_start_index(self.trace)
         self.eflux_end_idx = detect_eflux_end_index(self.trace)
+        self.onset_idx = 60
         self.baseline_return_idx = None
 
     def calculate_influx(self) -> float:
@@ -70,7 +71,8 @@ class ROI:
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",
             yaxis_range=(0.5, max(2.5, self.trace.max())),
-            highlight_index=self.peak_idx,
+            main_trace_peak_index=self.peak_idx,
+            main_trace_onset_index=self.onset_idx,
             eflux_linear_coefficients=eflux_linear_coefficients,
             influx_linear_coefficients=influx_linear_coefficients
         ).show()
