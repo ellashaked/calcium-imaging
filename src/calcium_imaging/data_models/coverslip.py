@@ -90,7 +90,7 @@ class Coverslip:
             target_onset_idx = int(np.median([roi.onset_idx for roi in self.rois]))
             print(f"aligning {len(self.rois)} ROIs to {target_onset_idx}")
         for roi in self.rois:
-            roi.trace = roi.trace.shift(target_onset_idx - roi.onset_idx)
+            roi.shift_trace(target_onset_idx - roi.onset_idx)
 
     @staticmethod
     def _init_rois(rois: List[ROI]) -> List[ROI]:

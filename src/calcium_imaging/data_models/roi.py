@@ -35,7 +35,17 @@ class ROI:
         self.influx_end_idx = self.peak_idx
         self.eflux_start_idx = self.peak_idx + self.EFLUX_START_INDEX_OFFSET_FROM_PEAK
         self.eflux_end_idx = detect_eflux_end_index(self.trace)
-        self.baseline_return_idx = None
+        self.baseline_return_idx = -999
+
+    def shift_trace(self, periods: int) -> None:
+        self.trace = self.trace.shift(periods)
+        self.onset_idx = self.onset_idx + periods
+        self.peak_idx = self.peak_idx + periods
+        self.influx_start_idx = self.influx_start_idx + periods
+        self.influx_end_idx = self.influx_end_idx + periods
+        self.eflux_start_idx = self.eflux_start_idx + periods
+        self.eflux_end_idx = self.eflux_end_idx + periods
+        self.baseline_return_idx = self.baseline_return_idx + periods
 
     def calculate_influx(self) -> float:
         return calculate_influx_linear_coefficients(
