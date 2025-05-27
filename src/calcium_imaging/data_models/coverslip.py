@@ -16,9 +16,10 @@ class Coverslip:
         self.id = coverslip_id
         self.group_type = group_type
         self.name = f"cs-{self.id}"
+        self.title = f"Coverslip {self.id} (ROIs {', '.join(str(roi.roi_id) for roi in self.rois)})"
 
     def __repr__(self) -> str:
-        return self.name
+        return self.title
 
     def __getitem__(self, roi_id: int) -> ROI:
         return self._id2roi[roi_id]
@@ -33,7 +34,7 @@ class Coverslip:
         try:
             self._id2roi.pop(roi_id)
             self.rois = [roi for roi in self.rois if roi.roi_id != roi_id]
-            print(f"Successfully dropped ROI {roi_id} from '{self.name}'")
+            print(f"Successfully dropped ROI {roi_id} from Coverslip {self.id}")
         except KeyError:
             print(f"ROI with id {roi_id} not found in '{self.name}'")
 
@@ -86,7 +87,7 @@ class Coverslip:
 
     def align_onsets(self, target_onset_idx: Optional[int] = None) -> None:
         if target_onset_idx is None:
-            target_onset_idx = np.median([roi.onset_idx for roi in self.rois])
+            target_onset_idx = int(np.median([roi.onset_idx for roi in self.rois]))
             print(f"aligning {len(self.rois)} ROIs to {target_onset_idx}")
         for roi in self.rois:
             roi.trace.shift(target_onset_idx - roi.onset_idx)

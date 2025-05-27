@@ -72,7 +72,7 @@ def create_traces_figure(
                     y=trace.values,
                     mode="lines",
                     name=trace.name,
-                    opacity=0.15,
+                    opacity=0.5,
                     line=dict(color=traces_color),
                     legendgroup=trace.name,
                 )
@@ -87,7 +87,7 @@ def create_traces_figure(
                         name=f"peak {trace.name}",
                         legendgroup=trace.name,
                         showlegend=False,
-                        opacity=0.1,
+                        opacity=0.4,
                     )
                 )
             if additional_traces_onset_indexes is not None:
@@ -100,7 +100,7 @@ def create_traces_figure(
                         name=f"onset {trace.name}",
                         legendgroup=trace.name,
                         showlegend=False,
-                        opacity=0.1,
+                        opacity=0.4,
                     )
                 )
 

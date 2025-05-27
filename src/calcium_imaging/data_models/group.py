@@ -15,12 +15,13 @@ class Group:
         self.coverslips = self._init_coverslips(coverslips)
         self._id2coverslip = {cs.id: cs for cs in self.coverslips}
         self.group_type = self._infer_group_type()
+        self.title = f"{self.group_type} (Coverslips {', '.join([str(cs.id) for cs in self.coverslips])})"
 
     def get_df(self) -> pd.DataFrame:
         return pd.concat([cs.get_df() for cs in self.coverslips], axis=1)
 
     def __repr__(self) -> str:
-        return str(self.group_type)
+        return self.title
 
     def __getitem__(self, coverslip_id: int) -> Coverslip:
         return self._id2coverslip[coverslip_id]
@@ -65,7 +66,7 @@ class Group:
     def align_onsets(self, target_onset_idx: Optional[int] = None) -> None:
         if target_onset_idx is None:
             onset_indexes = [roi.onset_idx for cs in self.coverslips for roi in cs]
-            target_onset_idx = np.median(onset_indexes)
+            target_onset_idx = int(np.median(onset_indexes))
             print(f"aligning {len(onset_indexes)} ROIs to {target_onset_idx}")
         for coverslip in self.coverslips:
             for roi in coverslip.rois:

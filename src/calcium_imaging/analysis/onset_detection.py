@@ -35,5 +35,5 @@ def detect_onset_index(
         if delta > threshold_factor * baseline_std:
             return trace.index[i]
 
-    print("No onset detected within the specified bounds")
+    print(f"No onset detected within the specified bounds for trace: {trace.name}")
     return start_bound

@@ -22,6 +22,7 @@ class Experiment:
         self._id2group = {g.group_type: g for g in self.groups}
         self.num_groups = len(self.groups)
         self.num_rois = len([roi for roi in self.iter_rois()])
+        self.title = f"{name} (Groups {', '.join([str(group.group_type) for group in self.groups])})"
 
     def __getitem__(self, group_type: str) -> Group:
         return self._id2group[group_type]
@@ -31,6 +32,9 @@ class Experiment:
 
     def __iter__(self) -> Iterator[Group]:
         return iter(self.groups)
+
+    def __repr__(self) -> str:
+        return self.title
 
     def visualize(self) -> None:
         colors = get_n_colors_from_palette(self.num_groups)
