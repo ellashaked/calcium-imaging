@@ -47,11 +47,11 @@ class Group:
             yaxis_title="Fluorescence relative to background",
         ).show()
 
-    def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+    def calculate_eflux_rates(self) -> List[Dict[str, float]]:
         return [
             eflux_rate
             for cs in self.coverslips
-            for eflux_rate in cs.calculate_eflux_rates(return_json=return_json)
+            for eflux_rate in cs.calculate_eflux_rates()
         ]
 
     def calculate_amplitudes(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:

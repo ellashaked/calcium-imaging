@@ -60,37 +60,27 @@ class Coverslip:
             self,
             metric_calculation_func: Callable[['ROI'], float],
             metric_name: str,
-            return_json: bool
     ) -> Union[List[float], List[Dict[str, float]]]:
-        # first, compute all the raw values
-        values = [metric_calculation_func(roi) for roi in self.rois]
-
-        if not return_json:
-            return values
-
-        # otherwise build the JSON objects
         return [
             {
                 "group_type": self.group_type,
                 "coverslip": roi.coverslip_id,
                 "roi": roi.roi_id,
-                metric_name: val
+                metric_name: metric_calculation_func(roi)
             }
-            for roi, val in zip(self.rois, values)
+            for roi in self.rois
         ]
 
-    def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+    def calculate_eflux_rates(self) -> List[Dict[str, float]]:
         return self._calculate_metric(
             lambda roi: roi.calculate_eflux(),
             metric_name="eflux",
-            return_json=return_json
         )
 
-    def calculate_amplitudes(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+    def calculate_amplitudes(self) -> List[Dict[str, float]]:
         return self._calculate_metric(
             lambda roi: roi.calculate_amplitude(),
             metric_name="amplitude",
-            return_json=return_json
         )
 
     @staticmethod

@@ -117,12 +117,47 @@ class Experiment:
             else:
                 break
 
-    def calculate_eflux_rates(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+    def calculate_eflux_rates(self) -> List[Dict[str, float]]:
         return [
             eflux_rate
             for group in self.groups
-            for eflux_rate in group.calculate_eflux_rates(return_json=return_json)
+            for eflux_rate in group.calculate_eflux_rates()
         ]
+
+    def get_eflux_rates_df(self) -> pd.DataFrame:
+        records = self.calculate_eflux_rates()
+        df = pd.DataFrame.from_records(records)
+        cols = df.columns.tolist()
+        df["experiment_name"] = self.name
+        new_cols_order = ["experiment_name"] + cols
+        df = df[new_cols_order]
+        df = df.sort_values(by=["coverslip", "roi"], ascending=True)
+        return df
+
+    def visualize_eflux_bar_chart(self) -> None:
+        df = self.get_eflux_rates_df()
+        group_stats = df.groupby('group_type')['eflux'].agg(['mean', 'std', 'count'])
+
+        # Compute SEM and 95% CI (approx)
+        group_stats['sem'] = group_stats['std'] / group_stats['count'] ** 0.5
+        group_stats['ci95'] = 1.96 * group_stats['sem']
+
+        # Plot with 95% CI as error bars
+        fig = go.Figure([
+            go.Bar(
+                x=group_stats.index,
+                y=group_stats['mean'],
+                error_y=dict(type='data', array=group_stats['ci95']),
+                name='Mean ± 95% CI'
+            )
+        ])
+        fig.update_layout(
+            title="Eflux mean with 95% Confidence Interval",
+            xaxis_title="Group Type",
+            yaxis_title="Eflux",
+            template="plotly_white"
+        )
+        fig.show()
 
     def calculate_amplitudes(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
         return [
