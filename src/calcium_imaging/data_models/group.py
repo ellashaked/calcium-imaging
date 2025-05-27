@@ -1,9 +1,9 @@
-from typing import List, Iterator, Union, Dict, Optional
+from typing import List, Iterator, Dict, Optional
 
 import pandas as pd
 
-from .coverslip import Coverslip
 from calcium_imaging.viz import create_traces_figure
+from .coverslip import Coverslip
 
 
 class Group:
@@ -54,11 +54,11 @@ class Group:
             for eflux_rate in cs.calculate_eflux_rates()
         ]
 
-    def calculate_amplitudes(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+    def calculate_amplitudes(self) -> List[Dict[str, float]]:
         return [
             amplitude
             for cs in self.coverslips
-            for amplitude in cs.calculate_amplitudes(return_json=return_json)
+            for amplitude in cs.calculate_amplitudes()
         ]
 
     @staticmethod

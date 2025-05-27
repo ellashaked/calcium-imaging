@@ -159,11 +159,11 @@ class Experiment:
         )
         fig.show()
 
-    def calculate_amplitudes(self, return_json: bool = False) -> Union[List[float], List[Dict[str, float]]]:
+    def calculate_amplitudes(self) -> List[Dict[str, float]]:
         return [
             amplitude
             for group in self.groups
-            for amplitude in group.calculate_amplitudes(return_json=return_json)
+            for amplitude in group.calculate_amplitudes()
         ]
 
     def get_group_type_to_df(self) -> Dict[str, pd.DataFrame]:
