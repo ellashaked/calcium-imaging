@@ -14,7 +14,6 @@ class Group:
         self.coverslips = self._init_coverslips(coverslips)
         self._id2coverslip = {cs.id: cs for cs in self.coverslips}
         self.group_type = self._infer_group_type()
-        self.cells_count = len(coverslips)
 
     def get_df(self) -> pd.DataFrame:
         return pd.concat([cs.get_df() for cs in self.coverslips], axis=1)
