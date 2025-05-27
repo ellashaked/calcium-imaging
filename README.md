@@ -74,3 +74,13 @@ exp = load_experiment(
 exp["control"][3][15].visualize()  # experiment[<group>][<coverslip-id>][<roi-id>]
 ```
 
+## API Reference
+
+### `Experiment`
+
+* `exp.save_mega_dfs(results_output_dir_path="./results")`
+* `exp.visualize()` - Shows mean trace per group.
+* `exp.visualize_all_rois()` - Shows the trace of every ROI in the experiment.
+* `exp.visualize_eflux_bar_chart()` - Shows the eflux bar chart for all ROIs.
+* `exp.visualize()`
+* `exp.visualize()`
