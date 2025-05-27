@@ -28,6 +28,14 @@ class Coverslip:
     def __iter__(self) -> Iterator[ROI]:
         return iter(self.rois)
 
+    def drop_roi(self, roi_id: int) -> None:
+        try:
+            self._id2roi.pop(roi_id)
+            self.rois = [roi for roi in self.rois if roi.roi_id != roi_id]
+            print(f"Successfully dropped ROI {roi_id} from '{self.name}'")
+        except KeyError:
+            print(f"ROI with id {roi_id} not found in '{self.name}'")
+
     def get_df(self) -> pd.DataFrame:
         return pd.concat([roi.trace for roi in self.rois], axis=1)
 
