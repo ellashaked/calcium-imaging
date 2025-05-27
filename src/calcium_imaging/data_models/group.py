@@ -1,5 +1,6 @@
 from typing import List, Iterator, Dict, Optional
 
+import numpy as np
 import pandas as pd
 
 from calcium_imaging.viz import create_traces_figure
@@ -60,6 +61,15 @@ class Group:
             for cs in self.coverslips
             for amplitude in cs.calculate_amplitudes()
         ]
+
+    def align_onsets(self, target_onset_idx: Optional[int] = None) -> None:
+        if target_onset_idx is None:
+            onset_indexes = [roi.onset_idx for cs in self.coverslips for roi in cs]
+            target_onset_idx = np.median(onset_indexes)
+            print(f"aligning {len(onset_indexes)} ROIs to {target_onset_idx}")
+        for coverslip in self.coverslips:
+            for roi in coverslip.rois:
+                roi.trace.shift(target_onset_idx - roi.onset_idx)
 
     @staticmethod
     def _init_coverslips(coverslips: List[Coverslip]) -> List[Coverslip]:

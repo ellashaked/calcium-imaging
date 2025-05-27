@@ -1,5 +1,6 @@
 from typing import Dict, List, Iterator, Union, Callable, Optional
 
+import numpy as np
 import pandas as pd
 
 from calcium_imaging.viz import create_traces_figure
@@ -82,6 +83,13 @@ class Coverslip:
             lambda roi: roi.calculate_amplitude(),
             metric_name="amplitude",
         )
+
+    def align_onsets(self, target_onset_idx: Optional[int] = None) -> None:
+        if target_onset_idx is None:
+            target_onset_idx = np.median([roi.onset_idx for roi in self.rois])
+            print(f"aligning {len(self.rois)} ROIs to {target_onset_idx}")
+        for roi in self.rois:
+            roi.trace.shift(target_onset_idx - roi.onset_idx)
 
     @staticmethod
     def _init_rois(rois: List[ROI]) -> List[ROI]:

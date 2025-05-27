@@ -125,7 +125,7 @@ class Experiment:
             for eflux_rate in group.calculate_eflux_rates()
         ]
 
-    def get_eflux_rates_df(self) -> pd.DataFrame:
+    def _get_eflux_rates_df(self) -> pd.DataFrame:
         records = self.calculate_eflux_rates()
         df = pd.DataFrame.from_records(records)
         cols = df.columns.tolist()
@@ -136,7 +136,7 @@ class Experiment:
         return df
 
     def visualize_eflux_bar_chart(self) -> None:
-        df = self.get_eflux_rates_df()
+        df = self._get_eflux_rates_df()
         group_stats = df.groupby('group_type')['eflux'].agg(['mean', 'std', 'count'])
 
         # Compute SEM and 95% CI (approx)
@@ -219,4 +219,5 @@ class Experiment:
 
         df = pd.DataFrame.from_records(records)
         df = df.sort_values(by=["experiment_name", "coverslip", "roi"], ascending=True)
+        df = df.reset_index(drop=True)
         return df
