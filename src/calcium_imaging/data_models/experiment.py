@@ -74,6 +74,10 @@ class Experiment:
         )
         fig.show()
 
+    def align_onsets(self) -> None:
+        for group in self.groups:
+            group.align_onsets()
+
     def visualize_all_rois(self) -> None:
         for roi in self.iter_rois():
             try:
