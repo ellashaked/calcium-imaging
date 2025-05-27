@@ -87,3 +87,8 @@ exp["control"][3][15].visualize()  # experiment[<group>][<coverslip-id>][<roi-id
 ### `Group`
 
 * `exp["group_type"].align_onsets()` - Aligns all onsets to the median onset.
+
+### `Coverslip`
+
+* `exp["group_type"][cs_id].drop_roi(roi_id)` - Deletes ROI from Coverslip 
+* `exp["group_type"][cs_id].align_onsets(target_onset_id)` 

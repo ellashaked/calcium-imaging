@@ -70,7 +70,7 @@ class Group:
             print(f"aligning {len(onset_indexes)} ROIs to {target_onset_idx}")
         for coverslip in self.coverslips:
             for roi in coverslip.rois:
-                roi.trace.shift(target_onset_idx - roi.onset_idx)
+                roi.trace = roi.trace.shift(target_onset_idx - roi.onset_idx)
 
     @staticmethod
     def _init_coverslips(coverslips: List[Coverslip]) -> List[Coverslip]:
