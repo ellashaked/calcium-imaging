@@ -78,9 +78,9 @@ exp["control"][3][15].visualize()  # experiment[<group>][<coverslip-id>][<roi-id
 
 ### `Experiment`
 
-* `exp.save_mega_dfs(results_output_dir_path="./results")`
+* `exp.save_mega_dfs(results_output_dir_path="./results")` - Saves mega dfs to requested path.
 * `exp.visualize()` - Shows mean trace per group.
 * `exp.visualize_all_rois()` - Shows the trace of every ROI in the experiment.
 * `exp.visualize_eflux_bar_chart()` - Shows the eflux bar chart for all ROIs.
-* `exp.visualize()`
-* `exp.visualize()`
+* `exp.get_eflux_rates_df()` - Returns df with all eflux rates.
+* `exp.get_full_analysis_df()`

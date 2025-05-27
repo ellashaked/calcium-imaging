@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import List, Dict, Iterator, Union
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 
@@ -184,3 +185,38 @@ class Experiment:
                 for roi in coverslip.rois:
                     yield roi
 
+    def get_full_analysis_df(self) -> pd.DataFrame:
+        records = []
+        for group in self.groups:
+            for coverslip in group.coverslips:
+                for roi in coverslip.rois:
+                    try:
+                        eflux = roi.calculate_eflux()
+                    except RuntimeError:
+                        eflux = np.nan
+
+                    try:
+                        influx = roi.calculate_influx()
+                    except RuntimeError:
+                        influx = np.nan
+
+                    try:
+                        amplitude = roi.calculate_amplitude()
+                    except RuntimeError:
+                        amplitude = np.nan
+
+                    records.append({
+                        "experiment_name": self.name,
+                        "group_type": group.group_type,
+                        "coverslip": coverslip.id,
+                        "roi": roi.roi_id,
+                        "onset_frame": roi.onset_idx,
+                        "peak_frame": roi.peak_idx,
+                        "eflux": eflux,
+                        "influx": influx,
+                        "amplitude": amplitude,
+                    })
+
+        df = pd.DataFrame.from_records(records)
+        df = df.sort_values(by=["experiment_name", "coverslip", "roi"], ascending=True)
+        return df
