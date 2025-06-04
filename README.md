@@ -52,7 +52,6 @@ preprocessor = Preprocessor(
     earliest_onset_frame=50,
     earliest_baseline_recovery_frame=130,
     drop_traces_with_corrupted_peak=False,
-    drop_time_col=True,
     drop_background_fluorescence_cols=True,
 )
 ```

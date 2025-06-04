@@ -19,6 +19,7 @@ class ROI:
     def __init__(
             self,
             trace: pd.Series,
+            time: pd.Series,
             roi_id: int,
             coverslip_id: int,
             group_type: str,
@@ -28,6 +29,7 @@ class ROI:
         self.group_type = group_type
         self.name = f"cs-{self.coverslip_id}_roi-{self.roi_id}"
         self.title = f"ROI {self.roi_id} (Coverslip {self.coverslip_id}, {self.group_type})"
+        self.time = time.copy(deep=True).rename(f"time_{self.name}")
         self.trace = trace.copy(deep=True).rename(self.name)
         self.onset_idx = detect_onset_index(self.trace)
         self.peak_idx = detect_peak_index(self.trace)
@@ -38,6 +40,7 @@ class ROI:
         self.baseline_return_idx = -999
 
     def shift_trace(self, periods: int) -> None:
+        self.time = self.time.shift(periods)
         self.trace = self.trace.shift(periods)
         self.onset_idx = self.onset_idx + periods
         self.peak_idx = self.peak_idx + periods

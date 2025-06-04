@@ -8,15 +8,16 @@ from .data_models import ROI, Coverslip, Group, Experiment
 from .io import load_vsi, validate_experiment_dir
 
 
-def _instantiate_rois(coverslip_info: CoverslipInfo, df: pd.DataFrame, preprocessor: Preprocessor) -> List[ROI]:
+def _instantiate_rois(coverslip_info: CoverslipInfo, processed_df: pd.DataFrame, time_col: str) -> List[ROI]:
     return sorted([
         ROI(
             trace=trace,
+            time=processed_df[time_col],
             roi_id=extract_roi_id_from_col_name(str(col_name)),
             coverslip_id=coverslip_info.coverslip_id,
             group_type=coverslip_info.group_type,
         )
-        for col_name, trace in preprocessor.preprocess(df).items()
+        for col_name, trace in processed_df.drop(columns=[time_col]).items()
     ], key=lambda x: x.roi_id)
 
 
@@ -25,12 +26,13 @@ def _instantiate_coverslips(experiment_dir_path: Path, preprocessor: Preprocesso
     for coverslip_file_path in experiment_dir_path.iterdir():
         try:
             df = load_vsi(coverslip_file_path)
+            processed_df = preprocessor.preprocess(df)
             coverslip_info = extract_coverslip_info_from_filename_stem(coverslip_file_path.stem)
             print(f"\ninstantiating {coverslip_file_path.stem}")
             rois = _instantiate_rois(
                 coverslip_info=coverslip_info,
-                df=df,
-                preprocessor=preprocessor
+                processed_df=processed_df,
+                time_col=preprocessor.time_col_name
             )
             coverslip = Coverslip(
                 coverslip_id=coverslip_info.coverslip_id,

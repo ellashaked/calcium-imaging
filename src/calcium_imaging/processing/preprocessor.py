@@ -18,7 +18,6 @@ class Preprocessor:
             earliest_onset_frame: int = 50,
             earliest_baseline_recovery_frame: int = 90,
             drop_traces_with_corrupted_peak: bool = False,
-            drop_time_col: bool = True,
             drop_background_fluorescence_cols: bool = True
     ) -> None:
         self.first_n_points_to_discard = first_n_points_to_discard
@@ -30,7 +29,6 @@ class Preprocessor:
         self.earliest_onset_frame = earliest_onset_frame
         self.earliest_baseline_recovery_frame = earliest_baseline_recovery_frame
         self.drop_traces_with_corrupted_peak = drop_traces_with_corrupted_peak
-        self.drop_time_col = drop_time_col
         self.drop_background_fluorescence_cols = drop_background_fluorescence_cols
 
     def preprocess(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -38,8 +36,6 @@ class Preprocessor:
         df = self.discard_first_n_points(df, n=self.first_n_points_to_discard)
         df = self.smoothen(df, window_size=self.smoothing_windows_size)
         df = self.subtract_baseline_fluorescence(df, self.background_fluorescence_cols_names)
-        if self.drop_time_col:
-            df = df.drop(columns=[self.time_col_name])
         if self.drop_background_fluorescence_cols:
             df = df.drop(columns=self.background_fluorescence_cols_names)
         df = self.normalize(
