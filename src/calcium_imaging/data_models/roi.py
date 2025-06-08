@@ -6,6 +6,7 @@ import numpy as np
 from calcium_imaging.analysis import (
     calculate_eflux_linear_coefficients,
     calculate_influx_linear_coefficients,
+    detect_baseline_return_idx,
     detect_onset_index,
     detect_peak_index,
     detect_eflux_end_index,
@@ -38,7 +39,9 @@ class ROI:
         self.influx_end_idx = self.peak_idx
         self.eflux_start_idx = self.peak_idx + self.EFLUX_START_INDEX_OFFSET_FROM_PEAK
         self.eflux_end_idx = detect_eflux_end_index(self.trace)
-        self.baseline_return_idx = -999
+        self.baseline_return_idx = detect_baseline_return_idx(
+            self.trace, self.eflux_start_idx, self.eflux_end_idx
+        )
 
     def shift_trace(self, periods: int) -> None:
         self.time = self.time.shift(periods)
@@ -111,10 +114,19 @@ class ROI:
         self.peak_idx = peak_idx
         self.influx_end_idx = self.peak_idx
         self.eflux_start_idx = self.peak_idx + self.EFLUX_START_INDEX_OFFSET_FROM_PEAK
+        self.baseline_return_idx = detect_baseline_return_idx(
+            self.trace, self.eflux_start_idx, self.eflux_end_idx
+        )
 
     def set_onset_idx(self, onset_idx: int) -> None:
         self.onset_idx = onset_idx
         self.influx_start_idx = self.onset_idx
+        self.baseline_return_idx = detect_baseline_return_idx(
+            self.trace, self.eflux_start_idx, self.eflux_end_idx
+        )
+
+    def set_baseline_return_idx(self, baseline_return_idx: int) -> None:
+        self.baseline_return_idx = baseline_return_idx
 
     def __repr__(self) -> str:
         return self.title

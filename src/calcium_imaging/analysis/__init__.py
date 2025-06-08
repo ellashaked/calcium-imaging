@@ -1,3 +1,4 @@
+from .baseline_return_detection import detect_baseline_return_idx
 from .eflux_calculation import calculate_eflux_linear_coefficients, detect_eflux_start_index, detect_eflux_end_index
 from .influx_calculation import calculate_influx_linear_coefficients
 from .linear_fit import linear_fit
