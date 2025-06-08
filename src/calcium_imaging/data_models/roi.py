@@ -88,6 +88,18 @@ class ROI:
         integral = np.trapz(trace_segment, time_segment)
         return integral
 
+    def calculate_tau(self) -> float:
+        """Calculate the delta time between the peak and 63.2% of amplitude"""
+        peak_value = self.trace[self.peak_idx]
+        target_value = 1 + (peak_value - 1) * 0.368  # 63.2% decay from peak
+        
+        # Search forward from peak to find where trace crosses target value
+        for idx in range(self.peak_idx, len(self.trace)):
+            if self.trace[idx] <= target_value:
+                return self.time[idx] - self.time[self.peak_idx]
+                
+        return self.time[self.baseline_return_idx] - self.time[self.peak_idx]  # Return time between peak and baseline return
+
     def visualize(self, title_prefix: Optional[str] = None) -> None:
         influx_linear_coefficients = calculate_influx_linear_coefficients(
             trace=self.trace,
