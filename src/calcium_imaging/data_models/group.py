@@ -36,6 +36,7 @@ class Group:
         rois_traces = [roi.trace for cs in self.coverslips for roi in cs]
         rois_peak_indexes = [roi.peak_idx for cs in self.coverslips for roi in cs]
         rois_onset_indexes = [roi.onset_idx for cs in self.coverslips for roi in cs]
+        rois_baseline_return_indexes = [roi.baseline_return_idx for cs in self.coverslips for roi in cs]
         average_trace = pd.Series(pd.concat(rois_traces, axis=1).mean(axis=1))
         average_trace.name = f"{self.group_type} mean"
         base_title = f"{self.group_type} (Coverslips {', '.join([str(cs.id) for cs in self.coverslips])})"
@@ -44,6 +45,7 @@ class Group:
             additional_traces=rois_traces,
             additional_traces_peak_indexes=rois_peak_indexes,
             additional_traces_onset_indexes=rois_onset_indexes,
+            additional_traces_baseline_return_indexes=rois_baseline_return_indexes,
             title=base_title if title_prefix is None else f"{title_prefix}\n{base_title}",
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",

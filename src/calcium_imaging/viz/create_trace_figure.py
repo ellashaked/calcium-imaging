@@ -11,9 +11,11 @@ def create_traces_figure(
         main_trace: pd.Series,
         main_trace_peak_index: Optional[int] = None,
         main_trace_onset_index: Optional[int] = None,
+        main_trace_baseline_return_index: Optional[int] = None,
         additional_traces: Optional[Iterable[pd.Series]] = None,
         additional_traces_peak_indexes: Optional[List[int]] = None,
         additional_traces_onset_indexes: Optional[List[int]] = None,
+        additional_traces_baseline_return_indexes: Optional[List[int]] = None,
         title: Optional[str] = None,
         xaxis_title: Optional[str] = None,
         yaxis_title: Optional[str] = None,
@@ -64,6 +66,20 @@ def create_traces_figure(
             )
         )
 
+    if main_trace_baseline_return_index is not None:
+        fig.add_trace(
+            go.Scatter(
+                x=[main_trace_baseline_return_index],
+                y=[main_trace[main_trace_baseline_return_index]],
+                mode="markers",
+                marker=dict(size=8, color="yellow", symbol="circle"),
+                opacity=0.5,
+                name=f"baseline return {main_trace.name}",
+                legendgroup=main_trace.name,
+                showlegend=False
+            )
+        )
+
     if additional_traces is not None:
         for i, trace in enumerate(additional_traces):
             fig.add_trace(
@@ -98,6 +114,19 @@ def create_traces_figure(
                         mode="markers",
                         marker=dict(size=8, color="green", symbol="circle"),
                         name=f"onset {trace.name}",
+                        legendgroup=trace.name,
+                        showlegend=False,
+                        opacity=0.1,
+                    )
+                )
+            if additional_traces_baseline_return_indexes is not None:
+                fig.add_trace(
+                    go.Scatter(
+                        x=[additional_traces_baseline_return_indexes[i]],
+                        y=[trace[additional_traces_baseline_return_indexes[i]]],
+                        mode="markers",
+                        marker=dict(size=8, color="yellow", symbol="circle"),
+                        name=f"baseline return {trace.name}",
                         legendgroup=trace.name,
                         showlegend=False,
                         opacity=0.1,

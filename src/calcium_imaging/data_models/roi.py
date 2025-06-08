@@ -106,6 +106,7 @@ class ROI:
             yaxis_title="Fluorescence relative to background",
             main_trace_peak_index=self.peak_idx,
             main_trace_onset_index=self.onset_idx,
+            main_trace_baseline_return_index=self.baseline_return_idx,
             eflux_linear_coefficients=eflux_linear_coefficients,
             influx_linear_coefficients=influx_linear_coefficients
         ).show()
