@@ -63,6 +63,13 @@ class Group:
             for amplitude in cs.calculate_amplitudes()
         ]
 
+    def calculate_integrals(self) -> List[Dict[str, float]]:
+        return [
+            integral
+            for cs in self.coverslips
+            for integral in cs.calculate_integrals()
+        ]
+
     def align_onsets(self, target_onset_idx: Optional[int] = None) -> None:
         if target_onset_idx is None:
             onset_indexes = [roi.onset_idx for cs in self.coverslips for roi in cs]

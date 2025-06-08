@@ -175,6 +175,13 @@ class Experiment:
             for amplitude in group.calculate_amplitudes()
         ]
 
+    def calculate_integrals(self) -> List[Dict[str, float]]:
+        return [
+            integral
+            for group in self.groups
+            for integral in group.calculate_integrals()
+        ]
+
     def get_group_type_to_df(self) -> Dict[str, pd.DataFrame]:
         return {g.group_type: g.get_df() for g in self.groups}
 

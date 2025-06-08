@@ -85,6 +85,12 @@ class Coverslip:
             metric_name="amplitude",
         )
 
+    def calculate_integrals(self) -> List[Dict[str, float]]:
+        return self._calculate_metric(
+            lambda roi: roi.calculate_integral(),
+            metric_name="integral",
+        )
+
     def align_onsets(self, target_onset_idx: Optional[int] = None) -> None:
         if target_onset_idx is None:
             target_onset_idx = int(np.median([roi.onset_idx for roi in self.rois]))
