@@ -1,6 +1,7 @@
 from typing import Optional
 
 import pandas as pd
+import numpy as np
 
 from calcium_imaging.analysis import (
     calculate_eflux_linear_coefficients,
@@ -66,6 +67,23 @@ class ROI:
 
     def calculate_amplitude(self) -> float:
         return self.trace[self.peak_idx] - 1
+
+    def calculate_integral(self) -> float:
+        """Calculate the integral of the trace from onset to baseline return using the trapezoidal rule.
+        
+        Returns:
+            float: The calculated integral of the trace.
+            
+        Raises:
+            ValueError: If baseline_return_idx is not set (equals -999).
+        """
+        # Get the relevant portions of the trace and time series
+        trace_segment = self.trace.iloc[self.onset_idx:self.baseline_return_idx + 1]
+        time_segment = self.time.iloc[self.onset_idx:self.baseline_return_idx + 1]
+        
+        # Calculate integral using trapezoidal rule
+        integral = np.trapz(trace_segment, time_segment)
+        return integral
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
         influx_linear_coefficients = calculate_influx_linear_coefficients(
