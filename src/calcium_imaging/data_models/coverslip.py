@@ -46,11 +46,10 @@ class Coverslip:
         rois_peak_indexes = [roi.peak_idx for roi in self.rois]
         rois_onset_indexes = [roi.onset_idx for roi in self.rois]
         rois_baseline_return_indexes = [roi.baseline_return_idx for roi in self.rois]
-        average_trace = pd.Series(pd.concat(rois_traces, axis=1).mean(axis=1))
-        average_trace.name = f"Coverslip {self.id} mean"
+        mean_trace = self.get_mean_trace()
         base_title = f"Coverslip {self.id} ({self.group_type})"
         create_traces_figure(
-            main_trace=average_trace,
+            main_trace=mean_trace,
             additional_traces=rois_traces,
             additional_traces_peak_indexes=rois_peak_indexes,
             additional_traces_onset_indexes=rois_onset_indexes,
@@ -59,7 +58,12 @@ class Coverslip:
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",
         ).show()
-
+    
+    def get_mean_trace(self) -> pd.Series:
+        mean_trace = pd.Series(pd.concat([roi.trace for roi in self.rois], axis=1).mean(axis=1))
+        mean_trace.name = f"Coverslip {self.id} mean"
+        return mean_trace
+    
     def _calculate_metric(
             self,
             metric_calculation_func: Callable[['ROI'], float],

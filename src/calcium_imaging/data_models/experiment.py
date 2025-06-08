@@ -83,6 +83,10 @@ class Experiment:
         for group in self.groups:
             group.align_onsets(target_onset_idx)
 
+    def get_mean_traces_df(self) -> pd.DataFrame:
+        mean_traces = [group.get_mean_trace() for group in self.groups]
+        df = pd.concat(mean_traces, axis=1)
+        return df
 
     def visualize_all_rois(self) -> None:
         for roi in self.iter_rois():

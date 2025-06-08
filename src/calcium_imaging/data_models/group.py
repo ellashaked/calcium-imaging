@@ -37,11 +37,10 @@ class Group:
         rois_peak_indexes = [roi.peak_idx for cs in self.coverslips for roi in cs]
         rois_onset_indexes = [roi.onset_idx for cs in self.coverslips for roi in cs]
         rois_baseline_return_indexes = [roi.baseline_return_idx for cs in self.coverslips for roi in cs]
-        average_trace = pd.Series(pd.concat(rois_traces, axis=1).mean(axis=1))
-        average_trace.name = f"{self.group_type} mean"
+        mean_trace = self.get_mean_trace()
         base_title = f"{self.group_type} (Coverslips {', '.join([str(cs.id) for cs in self.coverslips])})"
         create_traces_figure(
-            main_trace=average_trace,
+            main_trace=mean_trace,
             additional_traces=rois_traces,
             additional_traces_peak_indexes=rois_peak_indexes,
             additional_traces_onset_indexes=rois_onset_indexes,
@@ -50,6 +49,11 @@ class Group:
             xaxis_title="Frame",
             yaxis_title="Fluorescence relative to background",
         ).show()
+
+    def get_mean_trace(self) -> pd.Series:
+        mean_trace = pd.Series(pd.concat([roi.trace for cs in self.coverslips for roi in cs], axis=1).mean(axis=1))
+        mean_trace.name = f"{self.group_type} mean"
+        return mean_trace
 
     def calculate_eflux_rates(self) -> List[Dict[str, float]]:
         return [
