@@ -72,6 +72,13 @@ class Group:
             for integral in cs.calculate_integrals()
         ]
 
+    def calculate_taus(self) -> List[Dict[str, float]]:
+        return [
+            tau
+            for cs in self.coverslips
+            for tau in cs.calculate_taus()
+        ]
+
     def align_onsets(self, target_onset_idx: Optional[int] = None) -> None:
         if target_onset_idx is None:
             onset_indexes = [roi.onset_idx for cs in self.coverslips for roi in cs]

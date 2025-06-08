@@ -182,6 +182,13 @@ class Experiment:
             for integral in group.calculate_integrals()
         ]
 
+    def calculate_taus(self) -> List[Dict[str, float]]:
+        return [
+            tau
+            for group in self.groups
+            for tau in group.calculate_taus()
+        ]
+
     def get_group_type_to_df(self) -> Dict[str, pd.DataFrame]:
         return {g.group_type: g.get_df() for g in self.groups}
 
@@ -220,6 +227,16 @@ class Experiment:
                     except RuntimeError:
                         amplitude = np.nan
 
+                    try:
+                        integral = roi.calculate_integral()
+                    except RuntimeError:
+                        integral = np.nan
+
+                    try:
+                        tau = roi.calculate_tau()
+                    except RuntimeError:
+                        tau = np.nan
+
                     records.append({
                         "experiment_name": self.name,
                         "group_type": group.group_type,
@@ -230,6 +247,7 @@ class Experiment:
                         "eflux": eflux,
                         "influx": influx,
                         "amplitude": amplitude,
+                        "tau": tau,
                     })
 
         df = pd.DataFrame.from_records(records)
