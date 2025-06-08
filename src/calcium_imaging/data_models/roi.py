@@ -52,7 +52,7 @@ class ROI:
         self.influx_end_idx = self.influx_end_idx + periods
         self.eflux_start_idx = self.eflux_start_idx + periods
         self.eflux_end_idx = self.eflux_end_idx + periods
-        self.baseline_return_idx = self.baseline_return_idx + periods
+        self.baseline_return_idx = min(self.baseline_return_idx + periods, self.trace.index[-1])
 
     def calculate_influx(self) -> float:
         return calculate_influx_linear_coefficients(
@@ -81,8 +81,8 @@ class ROI:
             ValueError: If baseline_return_idx is not set (equals -999).
         """
         # Get the relevant portions of the trace and time series
-        trace_segment = self.trace.iloc[self.onset_idx:self.baseline_return_idx + 1]
-        time_segment = self.time.iloc[self.onset_idx:self.baseline_return_idx + 1]
+        trace_segment = self.trace.loc[self.onset_idx:self.baseline_return_idx + 1]
+        time_segment = self.time.loc[self.onset_idx:self.baseline_return_idx + 1]
         
         # Calculate integral using trapezoidal rule
         integral = np.trapz(trace_segment, time_segment)
@@ -95,10 +95,10 @@ class ROI:
         
         # Search forward from peak to find where trace crosses target value
         for idx in range(self.peak_idx, len(self.trace)):
-            if self.trace[idx] <= target_value:
-                return self.time[idx] - self.time[self.peak_idx]
-                
-        return self.time[self.baseline_return_idx] - self.time[self.peak_idx]  # Return time between peak and baseline return
+            if self.trace.loc[idx] <= target_value:
+                return self.time.loc[idx] - self.time.loc[self.peak_idx]
+            
+        return self.time.loc[self.baseline_return_idx] - self.time.loc[self.peak_idx]  # Return time between peak and baseline return
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
         influx_linear_coefficients = calculate_influx_linear_coefficients(
