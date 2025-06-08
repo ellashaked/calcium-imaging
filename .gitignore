@@ -172,3 +172,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+psaras-et-al-caltrack-high-throughput-automated-calcium-transient-analysis-in-cardiomyocytes.pdf
+scratch_work.ipynb
+.idea/*
+iframe_figures/figure_0.html
