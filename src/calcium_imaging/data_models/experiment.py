@@ -75,8 +75,14 @@ class Experiment:
         fig.show()
 
     def align_onsets(self) -> None:
+        print("aligning onsets within each group")
+        target_onsets = [group.align_onsets() for group in self.groups]
+        target_onset_idx = int(np.median(target_onsets))
+        
+        print(f"aligning onsets across groups to {target_onset_idx}")
         for group in self.groups:
-            group.align_onsets()
+            group.align_onsets(target_onset_idx)
+
 
     def visualize_all_rois(self) -> None:
         for roi in self.iter_rois():

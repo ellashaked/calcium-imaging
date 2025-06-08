@@ -79,7 +79,7 @@ class Group:
             for tau in cs.calculate_taus()
         ]
 
-    def align_onsets(self, target_onset_idx: Optional[int] = None) -> None:
+    def align_onsets(self, target_onset_idx: Optional[int] = None) -> int:
         if target_onset_idx is None:
             onset_indexes = [roi.onset_idx for cs in self.coverslips for roi in cs]
             target_onset_idx = int(np.median(onset_indexes))
@@ -87,6 +87,7 @@ class Group:
         for coverslip in self.coverslips:
             for roi in coverslip.rois:
                 roi.shift_trace(target_onset_idx - roi.onset_idx)
+        return target_onset_idx
 
     @staticmethod
     def _init_coverslips(coverslips: List[Coverslip]) -> List[Coverslip]:
