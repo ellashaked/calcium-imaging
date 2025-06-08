@@ -247,6 +247,7 @@ class Experiment:
                         "eflux": eflux,
                         "influx": influx,
                         "amplitude": amplitude,
+                        "integral": integral,
                         "tau": tau,
                     })
 
