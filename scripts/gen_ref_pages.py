@@ -1,33 +1,28 @@
-"""Generate API reference pages."""
 from pathlib import Path
-from typing import Dict, List
-
+import shutil
 import mkdocs_gen_files
 
+root = Path(__file__).parent.parent
+src = root / "src"
+
+# Copy README.md to docs/index.md
+readme_src = root / "README.md"
+readme_dest = Path("index.md")
+shutil.copyfile(readme_src, Path(mkdocs_gen_files.config["docs_dir"]) / readme_dest)
+
 nav = mkdocs_gen_files.Nav()
-
-for path in sorted(Path("src/calcium_imaging").rglob("*.py")):
-    module_path = path.relative_to("src").with_suffix("")
-    doc_path = path.relative_to("src").with_suffix(".md")
-    full_doc_path = Path("reference", doc_path)
-
-    parts = list(module_path.parts)
-
-    if parts[-1] == "__init__":
-        parts = parts[:-1]
-        doc_path = doc_path.with_name("index.md")
-        full_doc_path = full_doc_path.with_name("index.md")
-    elif parts[-1] == "__main__":
+for path in sorted(src.rglob("*.py")):
+    mod = path.relative_to(src).with_suffix("")
+    parts = tuple(mod.parts)
+    if parts[-1] in ("__init__", "__main__"):
         continue
+    
+    dest = Path("api_reference", *parts).with_suffix(".md")
 
-    nav[parts] = doc_path.as_posix()
+    nav[parts] = dest.as_posix()
+    with mkdocs_gen_files.open(dest, "w") as fd:
+        fd.write(f"::: {' '.join(parts).replace(' ', '.')}")
+    mkdocs_gen_files.set_edit_path(dest, path.relative_to(root))
 
-    with mkdocs_gen_files.open(full_doc_path, "w") as fd:
-        ident = ".".join(parts)
-        fd.write(f"# {ident}\n\n")
-        fd.write(f"::: {ident}")
-
-    mkdocs_gen_files.set_edit_path(full_doc_path, path)
-
-with mkdocs_gen_files.open("reference/SUMMARY.md", "w") as nav_file:
-    nav_file.writelines(nav.build_literate_nav()) 
+with mkdocs_gen_files.open("SUMMARY.md", "w") as fd:
+    fd.writelines(nav.build_literate_nav())
