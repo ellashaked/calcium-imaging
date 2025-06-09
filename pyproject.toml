@@ -12,3 +12,11 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.8"
 license = { file="LICENSE" }
+
+[project.optional-dependencies]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "mkdocs-gen-files",
+    "mkdocs-literate-nav",
+]
