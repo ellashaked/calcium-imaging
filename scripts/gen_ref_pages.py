@@ -6,11 +6,14 @@ root = Path(__file__).parent.parent
 src = root / "src"
 
 # Copy README.md to docs/index.md
-readme_src = root / "README.md"
-readme_dest = Path("index.md")
-shutil.copyfile(readme_src, Path(mkdocs_gen_files.config["docs_dir"]) / readme_dest)
+# readme_src = root / "README.md"
+# readme_dest = Path("index.md")
+# shutil.copyfile(readme_src, Path(mkdocs_gen_files.config["docs_dir"]) / readme_dest)
 
 nav = mkdocs_gen_files.Nav()
+
+nav[("Home",)] = "index.md"
+
 for path in sorted(src.rglob("*.py")):
     mod = path.relative_to(src).with_suffix("")
     parts = tuple(mod.parts)
