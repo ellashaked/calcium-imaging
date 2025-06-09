@@ -15,7 +15,27 @@ from calcium_imaging.viz import create_traces_figure
 
 
 class ROI:
-    """Single region of interest"""
+    """A class representing a single region of interest (ROI) in calcium imaging data.
+    
+    This class handles the analysis and visualization of calcium imaging data for a single ROI,
+    including calculation of influx/eflux rates, amplitude, integral, and tau values.
+    
+    Attributes:
+        coverslip_id (int): The ID of the coverslip this ROI belongs to.
+        roi_id (int): The unique identifier for this ROI.
+        group_type (str): The type of group this ROI belongs to.
+        name (str): A formatted name combining coverslip and ROI IDs.
+        title (str): A descriptive title for the ROI.
+        time (pd.Series): Time series data for the ROI.
+        trace (pd.Series): Fluorescence trace data for the ROI.
+        onset_idx (int): Index of the onset of the calcium response.
+        peak_idx (int): Index of the peak of the calcium response.
+        influx_start_idx (int): Start index for influx calculation.
+        influx_end_idx (int): End index for influx calculation.
+        eflux_start_idx (int): Start index for eflux calculation.
+        eflux_end_idx (int): End index for eflux calculation.
+        baseline_return_idx (int): Index where the trace returns to baseline.
+    """
     EFLUX_START_INDEX_OFFSET_FROM_PEAK = 5
 
     def __init__(
@@ -26,6 +46,15 @@ class ROI:
             coverslip_id: int,
             group_type: str,
     ) -> None:
+        """Initialize a new ROI instance.
+        
+        Args:
+            trace (pd.Series): The fluorescence trace data for this ROI.
+            time (pd.Series): The time series data corresponding to the trace.
+            roi_id (int): The unique identifier for this ROI.
+            coverslip_id (int): The ID of the coverslip this ROI belongs to.
+            group_type (str): The type of group this ROI belongs to.
+        """
         self.coverslip_id = coverslip_id
         self.roi_id = roi_id
         self.group_type = group_type
@@ -44,6 +73,11 @@ class ROI:
         )
 
     def shift_trace(self, periods: int) -> None:
+        """Shift the trace and all associated indices by a specified number of periods.
+        
+        Args:
+            periods (int): Number of periods to shift the trace and indices.
+        """
         self.time = self.time.shift(periods)
         self.trace = self.trace.shift(periods)
         self.onset_idx = self.onset_idx + periods
@@ -55,6 +89,11 @@ class ROI:
         self.baseline_return_idx = min(self.baseline_return_idx + periods, self.trace.index[-1])
 
     def calculate_influx(self) -> float:
+        """Calculate the influx rate of calcium for this ROI.
+        
+        Returns:
+            float: The calculated influx rate.
+        """
         return calculate_influx_linear_coefficients(
             trace=self.trace,
             start_idx=self.influx_start_idx,
@@ -62,6 +101,11 @@ class ROI:
         ).slope
 
     def calculate_eflux(self) -> float:
+        """Calculate the eflux rate of calcium for this ROI.
+        
+        Returns:
+            float: The calculated eflux rate.
+        """
         return calculate_eflux_linear_coefficients(
             trace=self.trace,
             start_idx=self.eflux_start_idx,
@@ -69,6 +113,11 @@ class ROI:
         ).slope
 
     def calculate_amplitude(self) -> float:
+        """Calculate the amplitude of the calcium response.
+        
+        Returns:
+            float: The amplitude, calculated as the peak value minus 1.
+        """
         return self.trace[self.peak_idx] - 1
 
     def calculate_integral(self) -> float:
@@ -89,7 +138,14 @@ class ROI:
         return integral
 
     def calculate_tau(self) -> float:
-        """Calculate the delta time between the peak and 63.2% of amplitude"""
+        """Calculate the time constant (tau) of the calcium response decay.
+        
+        Tau is calculated as the time between the peak and when the trace reaches
+        63.2% of the amplitude decay from peak.
+        
+        Returns:
+            float: The calculated tau value.
+        """
         peak_value = self.trace[self.peak_idx]
         target_value = 1 + (peak_value - 1) * 0.368  # 63.2% decay from peak
         
@@ -101,6 +157,11 @@ class ROI:
         return self.time.loc[self.baseline_return_idx] - self.time.loc[self.peak_idx]  # Return time between peak and baseline return
 
     def visualize(self, title_prefix: Optional[str] = None) -> None:
+        """Create and display a visualization of the ROI trace with key points marked.
+        
+        Args:
+            title_prefix (Optional[str]): Optional prefix to add to the plot title.
+        """
         influx_linear_coefficients = calculate_influx_linear_coefficients(
             trace=self.trace,
             start_idx=self.influx_start_idx,
@@ -124,6 +185,11 @@ class ROI:
         ).show()
 
     def set_peak_idx(self, peak_idx: int) -> None:
+        """Set a new peak index and update related indices.
+        
+        Args:
+            peak_idx (int): The new peak index to set.
+        """
         self.peak_idx = peak_idx
         self.influx_end_idx = self.peak_idx
         self.eflux_start_idx = self.peak_idx + self.EFLUX_START_INDEX_OFFSET_FROM_PEAK
@@ -132,11 +198,26 @@ class ROI:
         )
 
     def set_onset_idx(self, onset_idx: int) -> None:
+        """Set a new onset index and update related indices.
+        
+        Args:
+            onset_idx (int): The new onset index to set.
+        """
         self.onset_idx = onset_idx
         self.influx_start_idx = self.onset_idx
 
     def set_baseline_return_idx(self, baseline_return_idx: int) -> None:
+        """Set a new baseline return index.
+        
+        Args:
+            baseline_return_idx (int): The new baseline return index to set.
+        """
         self.baseline_return_idx = baseline_return_idx
 
     def __repr__(self) -> str:
+        """Return a string representation of the ROI.
+        
+        Returns:
+            str: A string containing the ROI's title.
+        """
         return self.title
