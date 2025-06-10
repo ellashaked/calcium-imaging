@@ -26,6 +26,9 @@
     
       <link rel="stylesheet" href="assets/stylesheets/main.342714a4.min.css">
       
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
       
 
 
@@ -55,7 +58,14 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -104,6 +114,32 @@
         </div>
       </div>
     </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
     
     
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
@@ -157,6 +193,18 @@
 </div>
       
     
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ellashaked/calcium-imaging" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ellashaked/calcium-imaging
+  </div>
+</a>
+      </div>
     
   </nav>
   
@@ -254,6 +302,18 @@
     Calcium Imaging Analysis
   </label>
   
+    <div class="md-nav__source">
+      <a href="https://github.com/ellashaked/calcium-imaging" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ellashaked/calcium-imaging
+  </div>
+</a>
+    </div>
+  
   <ul class="md-nav__list" data-md-scrollfix>
     
       
@@ -272,6 +332,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -283,6 +356,127 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-setup-google-drive" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Setup Google Drive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-path-to-raw-data-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Path to raw data files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-reading-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Reading experiments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Usage Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#group" class="md-nav__link">
+    <span class="md-ellipsis">
+      Group
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverslip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverslip
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1207,6 +1401,116 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-setup-google-drive" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Setup Google Drive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-path-to-raw-data-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Path to raw data files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-reading-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Reading experiments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Usage Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#group" class="md-nav__link">
+    <span class="md-ellipsis">
+      Group
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverslip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverslip
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1220,9 +1524,76 @@
                   
 
 
+  
+  
+
 
 <h1 id="calcium-imaging">Calcium Imaging<a class="headerlink" href="#calcium-imaging" title="Permanent link">&para;</a></h1>
-<p>Easily analyze VSI outputs.11</p>
+<p>Easily analyze VSI outputs.</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<h3 id="1-installation">1. Installation<a class="headerlink" href="#1-installation" title="Permanent link">&para;</a></h3>
+<p><strong>Open <a href="https://colab.research.google.com/">Google Colab</a></strong> and create a new notebook, for example <code>calcium-imaging.ipynb</code>.</p>
+<p><strong>Install the toolkit</strong> - execute this in the first cell of your notebook:</p>
+<div class="highlight"><pre><span></span><code>!rm<span class="w"> </span>-rf<span class="w"> </span>calcium-imaging<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ellashaked/calcium-imaging.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>calcium-imaging<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
+</code></pre></div>
+<h3 id="2-setup-google-drive">2. Setup Google Drive<a class="headerlink" href="#2-setup-google-drive" title="Permanent link">&para;</a></h3>
+<p><strong>Link your personal Google Drive</strong> - execute this in the second cell and click <em>Connect to Google Drive</em>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">drive</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/drive&#39;</span><span class="p">,</span> <span class="n">force_remount</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">HOME</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/drive&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;MyDrive&quot;</span>
+</code></pre></div>
+<h3 id="3-path-to-raw-data-files">3. Path to raw data files<a class="headerlink" href="#3-path-to-raw-data-files" title="Permanent link">&para;</a></h3>
+<p>This toolkit scans your directory for <code>.xls</code> files named in the following format <code>&lt;coverslip-id&gt; - &lt;group-type&gt;.xls</code>.
+Please make sure the files are in this format, otherwise you will encounter problems.</p>
+<p>Add another cell in your notebook that holds that path to the directory (folder) with your VSI output files.</p>
+<div class="highlight"><pre><span></span><code><span class="n">experiment_dir</span> <span class="o">=</span> <span class="n">HOME</span> <span class="o">/</span> <span class="s2">&quot;path&quot;</span> <span class="o">/</span> <span class="s2">&quot;to&quot;</span> <span class="o">/</span> <span class="s2">&quot;fish_NCLX_10-04-25&quot;</span>
+</code></pre></div>
+<h3 id="4-reading-experiments">4. Reading experiments<a class="headerlink" href="#4-reading-experiments" title="Permanent link">&para;</a></h3>
+<p>To read an experiment, you first have to instantiate a <code>Preprocessor</code> object that will hold the preprocessing settings.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">calcium_imaging</span><span class="w"> </span><span class="kn">import</span> <span class="n">Preprocessor</span>
+
+<span class="n">preprocessor</span> <span class="o">=</span> <span class="n">Preprocessor</span><span class="p">(</span>
+    <span class="n">first_n_points_to_discard</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">smoothing_windows_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">normalization_sampling_start_frame</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">normalization_sampling_end_frame</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span>
+    <span class="n">earliest_onset_frame</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">earliest_baseline_recovery_frame</span><span class="o">=</span><span class="mi">130</span><span class="p">,</span>
+    <span class="n">drop_traces_with_corrupted_peak</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">drop_background_fluorescence_cols</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>After you've set your preprocessor settings, you can load an experiment (multiple coverslips).</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">calcium_imaging</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_experiment</span>
+
+<span class="n">exp</span> <span class="o">=</span> <span class="n">load_experiment</span><span class="p">(</span>
+    <span class="n">experiment_dir</span><span class="o">=</span><span class="n">experiment_dir</span><span class="p">,</span>
+    <span class="n">preprocessor</span><span class="o">=</span><span class="n">preprocessor</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="5-usage-examples">5. Usage Examples<a class="headerlink" href="#5-usage-examples" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">exp</span><span class="p">[</span><span class="s2">&quot;control&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>  <span class="c1"># experiment[&lt;group&gt;][&lt;coverslip-id&gt;][&lt;roi-id&gt;]</span>
+</code></pre></div>
+<h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
+<h3 id="experiment"><code>Experiment</code><a class="headerlink" href="#experiment" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>exp.save_mega_dfs(results_output_dir_path="./results")</code> - Saves mega dfs to requested path.</li>
+<li><code>exp.visualize()</code> - Shows mean trace per group.</li>
+<li><code>exp.visualize_all_rois()</code> - Shows the trace of every ROI in the experiment.</li>
+<li><code>exp.visualize_eflux_bar_chart()</code> - Shows the eflux bar chart for all ROIs.</li>
+<li><code>exp.get_full_analysis_df()</code></li>
+</ul>
+<h3 id="group"><code>Group</code><a class="headerlink" href="#group" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>exp["group_type"].align_onsets()</code> - Aligns all onsets to the median onset.</li>
+</ul>
+<h3 id="coverslip"><code>Coverslip</code><a class="headerlink" href="#coverslip" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>exp["group_type"][cs_id].drop_roi(roi_id)</code> - Deletes ROI from Coverslip </li>
+<li><code>exp["group_type"][cs_id].align_onsets(target_onset_id)</code> </li>
+</ul>
 
 
 
