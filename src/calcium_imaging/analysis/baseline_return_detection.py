@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def detect_baseline_return_idx(trace: pd.Series, eflux_start_idx: int) -> int:
     """
     Detects the index where the trace crosses the eflux linear fit (returns to baseline).
