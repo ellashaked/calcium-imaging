@@ -37,4 +37,4 @@ def detect_peak_index(
             return trace.index[i]
 
     # fallback
-    return trace.index.values[trace.argmax()]
+    return trace.index.values.iloc[start_bound:][trace.argmax()]
