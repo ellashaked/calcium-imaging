@@ -48,7 +48,6 @@ def main():
         earliest_onset_frame=50,
         earliest_baseline_recovery_frame=130,
         drop_traces_with_corrupted_peak=False,
-        drop_time_col=True,
         drop_background_fluorescence_cols=True,
     )
     for experiment_dir in Path(raw_data_dir).iterdir():
@@ -73,4 +72,22 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    from calcium_imaging import Preprocessor
+
+    preprocessor = Preprocessor(
+        first_n_points_to_discard=5,
+        smoothing_windows_size=2,
+        normalization_sampling_start_frame=1,  # f0 - sampling the baseline flouresence
+        normalization_sampling_end_frame=35,
+        earliest_onset_frame=40,
+        earliest_baseline_recovery_frame=130,
+        drop_traces_with_corrupted_peak=True,
+        drop_background_fluorescence_cols=True,
+    )
+
+    from calcium_imaging import load_experiment
+
+    exp = load_experiment(
+        experiment_dir="raw_data/fish_NCLX_10-04-25",
+        preprocessor=preprocessor
+    )
