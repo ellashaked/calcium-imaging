@@ -88,6 +88,6 @@ if __name__ == '__main__':
     from calcium_imaging import load_experiment
 
     exp = load_experiment(
-        experiment_dir="raw_data/fish_NCLX_10-04-25",
+        experiment_dir="raw_data/TMEM-fish-NCLX-27-04-24",
         preprocessor=preprocessor
     )
