@@ -3,7 +3,7 @@ from typing import List
 import pandas as pd
 from scipy.signal import find_peaks
 
-from .constants import BACKGROUND_FLUORESCENCE_ROIS, TIME_COL
+from calcium_imaging.processing.constants import BACKGROUND_FLUORESCENCE_ROIS, TIME_COL
 
 
 class Preprocessor:
