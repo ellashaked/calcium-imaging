@@ -3,9 +3,9 @@ from typing import List, Union
 
 import pandas as pd
 
-from .processing import Preprocessor, CoverslipInfo, extract_roi_id_from_col_name, extract_coverslip_info_from_filename_stem
-from .data_models import ROI, Coverslip, Group, Experiment
-from .io import load_vsi, validate_experiment_dir
+from calcium_imaging.processing import Preprocessor, CoverslipInfo, extract_roi_id_from_col_name, extract_coverslip_info_from_filename_stem
+from calcium_imaging.data_models import ROI, Coverslip, Group, Experiment
+from calcium_imaging.io import load_vsi, validate_experiment_dir
 
 
 def _instantiate_rois(coverslip_info: CoverslipInfo, processed_df: pd.DataFrame, time_col: str) -> List[ROI]:
@@ -17,7 +17,8 @@ def _instantiate_rois(coverslip_info: CoverslipInfo, processed_df: pd.DataFrame,
             coverslip_id=coverslip_info.coverslip_id,
             group_type=coverslip_info.group_type,
         )
-        for col_name, trace in processed_df.drop(columns=[time_col]).items()
+        for col_name, trace in processed_df.items()
+        if str(col_name).startswith("ROI")
     ], key=lambda x: x.roi_id)
 
 

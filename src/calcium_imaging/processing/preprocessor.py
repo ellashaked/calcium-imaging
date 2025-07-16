@@ -121,6 +121,8 @@ class Preprocessor:
         """True if the global maximum is located *before* `start_index`."""
         result_df = df.copy(deep=True)
         for col, trace in df.items():
+            if not str(col).startswith("ROI"):
+                continue
             idx_max = trace.index.values[trace.argmax()]
             if idx_max < self.earliest_onset_frame:
                 if drop:
