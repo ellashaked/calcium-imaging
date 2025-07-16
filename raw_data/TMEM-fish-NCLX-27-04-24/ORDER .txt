@@ -1,0 +1,26 @@
+1- CONTROL 
+2 - CONTROL 
+3 - CONTROL
+4 (VSI 5) - siNCLX
+5 - siNCLX
+6 - long 
+7 - long
+8 - (vsi 9) - not useble 
+9 - siNCLX
+10 - siNCLX
+11 - long 
+12 - long
+13 - short - no response 
+14 - short 
+15 - short - no response
+16 - short - no response 
+17 - long + TMEM - no response 
+18 - long + TMEM - one respoended 
+19 - long + TMEM - no response
+20 - short + TMEM - NO RESPONSE 
+21 - short + TMEM
+22 - SHORT + TMEM - NO RESPONSE 
+
+
+ 
+ 
