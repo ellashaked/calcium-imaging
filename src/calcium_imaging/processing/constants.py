@@ -12,5 +12,5 @@ BACKGROUND_FLUORESCENCE_ROIS = [
 ]
 ROI_COL_PATTERN = re.compile(r'^ROI\s*(\d+)\s*\(Average\)$')
 COVERSLIP_FILENAME_STEM_PATTERN = re.compile(
-    r'^\s*(?P<coverslip_id>\d+)\s*-\s*(?P<group_type>.+?)\s*$'
+    r'^\s*(?:(?P<coverslip_id>\d+)\s*-\s*(?P<group_type>.+?)|(?P<group_type>.+?)\s*-\s*(?P<coverslip_id>\d+))\s*$'
 )
